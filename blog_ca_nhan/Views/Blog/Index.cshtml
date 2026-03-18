@@ -1,0 +1,180 @@
+@model blog_ca_nhan.Models.Blog
+@{
+    Layout = null; // We'll use a dedicated layout for public blogs
+    var themeClass = Model.CurrentTheme?.Name?.ToLower().Replace(" ", "-") ?? "default";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.Title - @Model.Owner?.DisplayName</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+    <style>
+        :root {
+            --blog-primary: #2c59f2;
+            --blog-bg: #ffffff;
+            --blog-text: #1e293b;
+        }
+
+        /* Dynamic Theme Overrides */
+        .theme-minimalist { --blog-primary: #000; --blog-bg: #fff; }
+        .theme-modern { --blog-primary: #0675d2; --blog-bg: #f8fafc; }
+        .theme-e-commerce { --blog-primary: #16a34a; --blog-bg: #fff; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--blog-bg);
+            color: var(--blog-text);
+            line-height: 1.6;
+        }
+
+        .blog-header {
+            padding: 80px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--blog-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .blog-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border: 1px solid #f1f5f9;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .post-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .post-title a {
+            color: var(--blog-text);
+            text-decoration: none;
+        }
+
+        .post-title a:hover {
+            color: var(--blog-primary);
+        }
+
+        .btn-read-more {
+            color: var(--blog-primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body class="theme-@themeClass">
+
+    <header class="blog-header">
+        <div class="container">
+            <div class="avatar-circle">
+                @if (!string.IsNullOrEmpty(Model.Owner?.AvatarUrl))
+                {
+                    <img src="@Model.Owner.AvatarUrl" class="rounded-circle w-100 h-100" style="object-fit:cover">
+                }
+                else
+                {
+                    @(Model.Owner?.DisplayName?[0].ToString().ToUpper() ?? "B")
+                }
+            </div>
+            <h1 class="blog-title">@Model.Title</h1>
+            <p class="fs-5 text-muted mx-auto" style="max-width:600px">
+                @Model.Description
+                <br>
+                <span class="small">By <strong>@Model.Owner?.DisplayName</strong></span>
+            </p>
+            @if (!string.IsNullOrEmpty(Model.Owner?.Bio))
+            {
+                <p class="small text-muted mt-2">@Model.Owner.Bio</p>
+            }
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                @if (!Model.Posts.Any())
+                {
+                    <div class="text-center py-5">
+                        <i class="fa-solid fa-feather fa-3x text-light mb-3"></i>
+                        <p class="text-muted">Chưa có bài viết nào được đăng tải.</p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var post in Model.Posts)
+                    {
+                        <div class="post-card">
+                            <span class="badge bg-light text-muted mb-3">@post.PublishedAt?.ToString("dd MMMM, yyyy")</span>
+                            <h2 class="post-title">
+                                <a href="/b/@Model.Subdomain/@post.Slug">@post.Title</a>
+                            </h2>
+                            <p class="text-muted mb-4">@post.Summary</p>
+                            <a href="/b/@Model.Subdomain/@post.Slug" class="btn-read-more">
+                                Đọc tiếp <i class="fa-solid fa-arrow-right-long"></i>
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - @Model.Title. Built with <strong>blog_ca_nhan</strong></p>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

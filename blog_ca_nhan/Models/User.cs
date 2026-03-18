@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -31,6 +31,11 @@ public partial class User
     public bool? IsActive { get; set; }
 
     public bool? IsPlatformAdmin { get; set; }
+
+    public string? Bio { get; set; }
+
+    [StringLength(500)]
+    public string? AvatarUrl { get; set; }
 
     [InverseProperty("User")]
     public virtual ICollection<AuditLog> AuditLogs { get; set; } = new List<AuditLog>();

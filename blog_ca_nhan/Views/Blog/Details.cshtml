@@ -1,0 +1,158 @@
+@model blog_ca_nhan.Models.Post
+@{
+    Layout = null; // Using independent layout
+    var blog = ViewData["Blog"] as blog_ca_nhan.Models.Blog;
+    var themeClass = blog?.CurrentTheme?.Name?.ToLower().Replace(" ", "-") ?? "default";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.Title - @blog?.Title</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+    <style>
+        :root {
+            --blog-primary: #2c59f2;
+            --blog-bg: #ffffff;
+            --blog-text: #1e293b;
+        }
+
+        .theme-minimalist { --blog-primary: #000; }
+        .theme-modern { --blog-primary: #0675d2; --blog-bg: #f8fafc; }
+        .theme-e-commerce { --blog-primary: #16a34a; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--blog-bg);
+            color: var(--blog-text);
+            line-height: 1.8;
+        }
+
+        .post-header {
+            padding: 100px 0 60px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .post-category {
+            color: var(--blog-primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .post-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #64748b;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .post-content {
+            font-size: 1.2rem;
+            color: #334155;
+            margin-bottom: 60px;
+        }
+
+        .post-content p {
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--blog-text);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .back-link:hover {
+            color: var(--blog-primary);
+        }
+
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body class="theme-@themeClass">
+
+    <header class="post-header">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <a href="/b/@blog?.Subdomain" class="back-link">
+                        <i class="fa-solid fa-arrow-left"></i> Quay lại @blog?.Title
+                    </a>
+                    
+                    <span class="post-category">@Model.Category?.Name</span>
+                    <h1 class="post-title">@Model.Title</h1>
+                    
+                    <div class="post-meta">
+                        <div class="author-avatar">
+                            @(Model.Author?.DisplayName?[0].ToString().ToUpper() ?? "A")
+                        </div>
+                        <div>
+                            <strong>@Model.Author?.DisplayName</strong>
+                            <br>
+                            <span class="small">Đã đăng ngày @Model.PublishedAt?.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <article class="post-content">
+                    @Html.Raw(Model.Content)
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - @blog?.Title. Built with <strong>blog_ca_nhan</strong></p>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -24,24 +24,35 @@ else
         <div class="col-lg-8">
             <div class="admin-card mb-4">
                 <h5 class="fw-bold mb-4">Thông tin chung</h5>
-                <form>
+                <form asp-area="Blogger" asp-controller="Dashboard" asp-action="UpdateSettings" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Tên Blog</label>
-                        <input type="text" class="form-control rounded-3" value="@Model.Title">
+                        <input name="title" type="text" class="form-control rounded-3" value="@Model.Title" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Mô tả</label>
-                        <textarea class="form-control rounded-3" rows="2">@Model.Description</textarea>
+                        <textarea name="description" class="form-control rounded-3" rows="2">@Model.Description</textarea>
+                    </div>
+
+                    <h6 class="fw-bold mt-4 mb-3">Hồ sơ người dùng (Công khai)</h6>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Link Ảnh đại diện (URL)</label>
+                        <input name="avatarUrl" type="text" class="form-control rounded-3" value="@Model.Owner?.AvatarUrl" placeholder="https://example.com/avatar.jpg">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Subdomain</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control rounded-start-3" value="@Model.Subdomain" readonly>
-                            <span class="input-group-text bg-light text-muted">.blog-ca-nhan.local</span>
-                        </div>
-                        <div class="form-text">Subdomain không thể thay đổi sau khi tạo.</div>
+                        <label class="form-label fw-semibold">Tiểu sử (Bio)</label>
+                        <textarea name="bio" class="form-control rounded-3" rows="3" placeholder="Giới thiệu ngắn về bạn...">@Model.Owner?.Bio</textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-semibold">Lưu thay đổi</button>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Subdomain</label>
+                        <div class="input-group text-muted">
+                            <input type="text" class="form-control rounded-start-3 bg-light" value="@Model.Subdomain" readonly>
+                            <span class="input-group-text bg-light">.blog-ca-nhan.local</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold">Lưu thay đổi</button>
                 </form>
             </div>
 

@@ -55,6 +55,12 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+// Public Blog Route
+app.MapControllerRoute(
+    name: "blog",
+    pattern: "b/{subdomain}/{slug?}",
+    defaults: new { controller = "Blog", action = "Index" });
+
 // Area routing (MUST come before default route)
 app.MapControllerRoute(
     name: "areas",

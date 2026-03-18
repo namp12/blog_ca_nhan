@@ -108,10 +108,10 @@ else
                     </p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a asp-controller="Dashboard" asp-action="Posts" asp-route-blogId="@blog.Id" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                    <a asp-area="Blogger" asp-controller="Dashboard" asp-action="Posts" asp-route-blogId="@blog.Id" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
                         <i class="fa-solid fa-file-lines me-1"></i>Bài viết
                     </a>
-                    <a href="#" class="btn btn-sm btn-primary rounded-pill px-3">
+                    <a href="/b/@blog.Subdomain" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3">
                         <i class="fa-solid fa-arrow-up-right-from-square me-1"></i>Xem
                     </a>
                 </div>

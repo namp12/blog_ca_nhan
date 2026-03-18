@@ -214,7 +214,35 @@ public class DashboardController : Controller
     public async Task<IActionResult> Settings()
     {
         ViewData["ActiveMenu"] = "settings";
-        var blog = await _context.Blogs.FirstOrDefaultAsync(b => b.OwnerId == CurrentUserId);
+        var blog = await _context.Blogs
+            .Include(b => b.Owner)
+            .Include(b => b.Plan)
+            .FirstOrDefaultAsync(b => b.OwnerId == CurrentUserId);
         return View(blog);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateSettings(int id, string title, string? description, string? bio, string? avatarUrl)
+    {
+        var blog = await _context.Blogs
+            .Include(b => b.Owner)
+            .FirstOrDefaultAsync(b => b.Id == id && b.OwnerId == CurrentUserId);
+
+        if (blog != null)
+        {
+            blog.Title = title;
+            blog.Description = description;
+
+            if (blog.Owner != null)
+            {
+                blog.Owner.Bio = bio;
+                blog.Owner.AvatarUrl = avatarUrl;
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Success"] = "Cài đặt đã được cập nhật!";
+        }
+
+        return RedirectToAction("Settings");
     }
 }
