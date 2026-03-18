@@ -12,8 +12,8 @@
                     Tự do, linh hoạt và mạnh mẽ cho mọi blogger, doanh nghiệp và nhà phát triển.
                 </p>
                 <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
-                    <a href="#" class="btn-premium fs-5">Bắt đầu blog của bạn</a>
-                    <a href="#" class="btn-premium-outline fs-5">Xem các gói dịch vụ</a>
+                    <a asp-controller="Account" asp-action="Register" class="btn-premium fs-5 text-decoration-none">Bắt đầu blog của bạn</a>
+                    <a asp-controller="Dashboard" asp-action="Plans" class="btn-premium-outline fs-5 text-decoration-none">Xem các gói dịch vụ</a>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <h2 class="h1 font-heading">Kéo, thả, và tỏa sáng</h2>
                 <p class="text-muted fs-5">Hàng trăm mẫu thiết kế và layout đẹp mắt có sẵn.</p>
             </div>
-            <a href="#" class="btn btn-outline-primary rounded-pill px-4 mb-3">Xem tất cả giao diện</a>
+            <a asp-controller="Dashboard" asp-action="Themes" class="btn btn-outline-primary rounded-pill px-4 mb-3">Xem tất cả giao diện</a>
         </div>
     </div>
     
@@ -176,7 +176,7 @@
     <div class="container py-5">
         <h2 class="display-5 mb-4 font-heading">Sẵn sàng để đưa ý tưởng của bạn ra thế giới?</h2>
         <p class="fs-4 mb-5 opacity-75">Gia nhập cộng đồng hơn 100 triệu người dùng ngay hôm nay.</p>
-        <a href="#" class="btn-premium btn-lg rounded-pill px-5">Tạo trang web của bạn</a>
+        <a asp-controller="Account" asp-action="Register" class="btn-premium btn-lg rounded-pill px-5 text-decoration-none">Tạo trang web của bạn</a>
     </div>
 </section>
 
