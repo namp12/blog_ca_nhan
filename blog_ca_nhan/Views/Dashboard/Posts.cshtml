@@ -1,0 +1,116 @@
+@model List<blog_ca_nhan.Models.Post>
+@{
+    ViewData["Title"] = "Bài viết";
+    Layout = "_AdminLayout";
+    var blogs = ViewData["Blogs"] as List<blog_ca_nhan.Models.Blog>;
+    var selectedBlogId = (int?)ViewData["SelectedBlogId"];
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">Bài viết</h1>
+    @if (selectedBlogId.HasValue)
+    {
+        <a asp-action="CreatePost" asp-route-blogId="@selectedBlogId" class="btn btn-primary rounded-pill px-4 fw-semibold">
+            + Viết bài mới
+        </a>
+    }
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-4">@TempData["Success"]</div>
+}
+
+@if (blogs == null || !blogs.Any())
+{
+    <div class="admin-card">
+        <div class="empty-state">
+            <h3>Chưa có Blog nào</h3>
+            <p>Tạo một Blog trước khi viết bài nhé.</p>
+            <a asp-action="CreateBlog" class="btn btn-primary rounded-pill px-4">Tạo Blog ngay</a>
+        </div>
+    </div>
+}
+else
+{
+    <!-- Blog selector -->
+    @if (blogs.Count > 1)
+    {
+        <div class="mb-3">
+            @foreach (var b in blogs)
+            {
+                <a asp-action="Posts" asp-route-blogId="@b.Id"
+                   class="btn btn-sm me-2 rounded-pill @(b.Id == selectedBlogId ? "btn-dark" : "btn-outline-secondary")">
+                    @b.Title
+                </a>
+            }
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="admin-card">
+            <div class="empty-state">
+                <i class="fa-solid fa-file-lines fa-3x text-muted mb-3"></i>
+                <h3>Chưa có bài viết nào</h3>
+                <p>Bắt đầu chia sẻ câu chuyện của bạn với thế giới!</p>
+                <a asp-action="CreatePost" asp-route-blogId="@selectedBlogId" class="btn btn-primary rounded-pill px-4">
+                    Viết bài đầu tiên
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="admin-card p-0">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr class="border-bottom">
+                        <th class="px-4 py-3 fw-semibold text-muted small border-0">TIÊU ĐỀ</th>
+                        <th class="px-3 py-3 fw-semibold text-muted small border-0">TRẠNG THÁI</th>
+                        <th class="px-3 py-3 fw-semibold text-muted small border-0">NGÀY TẠO</th>
+                        <th class="px-3 py-3 fw-semibold text-muted small border-0">LƯỢT XEM</th>
+                        <th class="px-3 py-3 border-0"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var post in Model)
+                    {
+                        <tr>
+                            <td class="px-4 py-3">
+                                <div class="fw-semibold">@post.Title</div>
+                                <div class="text-muted small">@post.Slug</div>
+                            </td>
+                            <td class="px-3 py-3">
+                                @if (post.Status == 1)
+                                {
+                                    <span class="badge bg-success rounded-pill">Đã xuất bản</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary rounded-pill">Bản nháp</span>
+                                }
+                            </td>
+                            <td class="px-3 py-3 text-muted small">
+                                @post.CreatedAt?.ToString("dd/MM/yyyy")
+                            </td>
+                            <td class="px-3 py-3 text-muted small">
+                                @(post.ViewCount ?? 0)
+                            </td>
+                            <td class="px-3 py-3 text-end">
+                                <form asp-action="DeletePost" method="post" style="display:inline"
+                                      onsubmit="return confirm('Xoá bài viết này?')">
+                                    <input type="hidden" name="id" value="@post.Id" />
+                                    <input type="hidden" name="blogId" value="@selectedBlogId" />
+                                    <button class="btn btn-sm btn-outline-danger rounded-pill">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Quản trị Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body class="admin-body">
+    <!-- Top Bar -->
+    <header class="admin-topbar">
+        <div class="d-flex align-items-center gap-3">
+            <button class="btn sidebar-toggle d-lg-none" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="/" class="admin-logo">
+                <i class="fa-solid fa-wand-magic-sparkles me-2 text-primary"></i>
+                <span>blog_ca_nhan</span>
+            </a>
+        </div>
+        <div class="admin-topbar-right">
+            <a href="/" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                <i class="fa-solid fa-eye me-1"></i> Xem trang web
+            </a>
+            <div class="dropdown">
+                <button class="btn btn-sm d-flex align-items-center gap-2 user-btn dropdown-toggle" data-bs-toggle="dropdown">
+                    <div class="user-avatar">@(User.FindFirst("DisplayName")?.Value?[0].ToString().ToUpper() ?? "U")</div>
+                    <span class="d-none d-md-block">@User.FindFirst("DisplayName")?.Value</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+                    <li><a class="dropdown-item py-2" href="#"><i class="fa-solid fa-user me-2 text-muted"></i>Hồ sơ cá nhân</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item py-2 text-danger" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <nav class="admin-sidebar" id="adminSidebar">
+            <ul class="sidebar-nav">
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "blogs" ? "active" : "")">
+                    <a asp-controller="Dashboard" asp-action="Blogs" class="sidebar-link">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                        <span>Trang web</span>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "posts" ? "active" : "")">
+                    <a asp-controller="Dashboard" asp-action="Posts" class="sidebar-link">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>Bài viết</span>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "domains" ? "active" : "")">
+                    <a asp-controller="Dashboard" asp-action="Domains" class="sidebar-link">
+                        <i class="fa-solid fa-globe"></i>
+                        <span>Tên miền</span>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "themes" ? "active" : "")">
+                    <a asp-controller="Dashboard" asp-action="Themes" class="sidebar-link">
+                        <i class="fa-solid fa-palette"></i>
+                        <span>Chủ đề</span>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "plugins" ? "active" : "")">
+                    <a asp-controller="Dashboard" asp-action="Plugins" class="sidebar-link">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                        <span>Plugin</span>
+                        <i class="fa-solid fa-chevron-right ms-auto small"></i>
+                    </a>
+                </li>
+                <li class="sidebar-item mt-auto @(ViewData["ActiveMenu"]?.ToString() == "settings" ? "active" : "")">
+                    <a asp-controller="Dashboard" asp-action="Settings" class="sidebar-link">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Cài đặt</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-content">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+            document.getElementById('adminSidebar').classList.toggle('open');
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

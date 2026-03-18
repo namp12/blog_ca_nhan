@@ -1,0 +1,53 @@
+@model List<blog_ca_nhan.Models.Blog>
+@{
+    ViewData["Title"] = "Tên miền";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">Tên miền</h1>
+    <a href="#" class="btn btn-primary rounded-pill px-4 fw-semibold">+ Thêm tên miền</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="admin-card">
+        <div class="empty-state">
+            <i class="fa-solid fa-globe fa-3x text-muted mb-3"></i>
+            <h3>Chưa có tên miền nào</h3>
+            <p>Tạo một Blog để nhận subdomain miễn phí, hoặc kết nối tên miền tuỳ chỉnh của bạn.</p>
+            <a asp-controller="Dashboard" asp-action="CreateBlog" class="btn btn-primary rounded-pill px-4">Tạo Blog đầu tiên</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="admin-card mb-4">
+        @foreach (var blog in Model)
+        {
+            <div class="blog-item">
+                <div class="blog-icon" style="background:#e8f4fd; color:#0969da">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <div class="blog-info flex-grow-1">
+                    <h6>@blog.Subdomain.blog-ca-nhan.local</h6>
+                    <p class="text-muted">Subdomain miễn phí · Blog: @blog.Title</p>
+                </div>
+                <span class="badge bg-success rounded-pill">Hoạt động</span>
+            </div>
+        }
+    </div>
+
+    <div class="admin-card" style="background: linear-gradient(135deg, #f8faff, #fff);">
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="feature-icon" style="background:#e8f4fd; color:#0969da; width:48px; height:48px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <div>
+                <h5 class="fw-bold mb-0">Nâng cấp để dùng tên miền tuỳ chỉnh</h5>
+                <p class="text-muted small mb-0">Ví dụ: <strong>phuongnam.com</strong> thay vì subdomain miễn phí</p>
+            </div>
+        </div>
+        <a href="#" class="btn btn-primary rounded-pill px-4 fw-semibold">Nâng cấp gói</a>
+    </div>
+}

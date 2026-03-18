@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "Plugin";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">Plugin</h1>
+</div>
+
+<div class="row g-3">
+    @{
+        var plugins = new[] {
+            new { Name = "Jetpack", Desc = "Bảo mật, hiệu suất và tăng trưởng cho website của bạn.", Icon = "fa-shield-halved", Color = "#0269da", Installed = false },
+            new { Name = "WooCommerce", Desc = "Thương mại điện tử cho WordPress. Bán thứ gì đó.", Icon = "fa-bag-shopping", Color = "#7f54b3", Installed = false },
+            new { Name = "Yoast SEO", Desc = "Tối ưu SEO cho mọi trang, bài viết của bạn.", Icon = "fa-magnifying-glass-chart", Color = "#a4286a", Installed = true },
+            new { Name = "Contact Form 7", Desc = "Quản lý nhiều form liên hệ một cách đơn giản.", Icon = "fa-envelope", Color = "#0d6efd", Installed = false },
+            new { Name = "Google Analytics", Desc = "Phân tích số liệu hành vi người dùng trên website.", Icon = "fa-chart-bar", Color = "#e37400", Installed = false },
+            new { Name = "Akismet Anti-Spam", Desc = "Lọc spam trong bình luận và form liên hệ.", Icon = "fa-broom", Color = "#00a0d2", Installed = false },
+        };
+    }
+
+    @foreach (var plugin in plugins)
+    {
+        <div class="col-sm-6 col-lg-4">
+            <div class="admin-card h-100">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div style="width:44px; height:44px; background:@plugin.Color + '20'; color:@plugin.Color; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">
+                        <i class="fa-solid @plugin.Icon"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-0">@plugin.Name</h6>
+                        @if (plugin.Installed)
+                        {
+                            <span class="badge bg-success rounded-pill small">Đã cài đặt</span>
+                        }
+                    </div>
+                </div>
+                <p class="text-muted small mb-3">@plugin.Desc</p>
+                @if (plugin.Installed)
+                {
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3">Gỡ cài đặt</button>
+                }
+                else
+                {
+                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3">Cài đặt</button>
+                }
+            </div>
+        </div>
+    }
+</div>

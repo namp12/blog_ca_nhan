@@ -1,0 +1,66 @@
+@model List<blog_ca_nhan.Models.Theme>
+@{
+    ViewData["Title"] = "Chủ đề";
+    Layout = "_AdminLayout";
+    var currentThemeId = (int?)ViewData["CurrentThemeId"];
+    var themeImages = new[] {
+        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=250&fit=crop",
+        "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=400&h=250&fit=crop",
+        "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=250&fit=crop",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop",
+        "https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&h=250&fit=crop",
+        "https://images.unsplash.com/photo-1454165833767-027ffea9e77b?w=400&h=250&fit=crop"
+    };
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">Chủ đề</h1>
+    <div>
+        <button class="btn btn-outline-secondary rounded-pill px-4 me-2">Tất cả</button>
+        <button class="btn btn-outline-secondary rounded-pill px-4">Miễn phí</button>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="admin-card">
+        <div class="empty-state">
+            <h3>Chưa có chủ đề nào</h3>
+            <p>Hệ thống chưa được thiết lập chủ đề. Hoãn liên hệ quản trị viên.</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row g-4">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var theme = Model[i];
+            var imgUrl = themeImages[i % themeImages.Length];
+            var isActive = theme.Id == currentThemeId;
+            <div class="col-sm-6 col-lg-4">
+                <div class="theme-card-item @(isActive ? "active" : "")">
+                    <img src="@imgUrl" alt="@theme.Name">
+                    <div class="theme-card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fw-bold mb-0">@theme.Name</h6>
+                            <p class="text-muted small mb-0">@(theme.IsPremium == true ? "Premium" : "Miễn phí")</p>
+                        </div>
+                        @if (isActive)
+                        {
+                            <span class="badge bg-primary rounded-pill">Đang dùng</span>
+                        }
+                        else
+                        {
+                            <form asp-action="ApplyTheme" method="post">
+                                <input type="hidden" name="themeId" value="@theme.Id" />
+                                <input type="hidden" name="blogId" value="@currentThemeId" />
+                                <button class="btn btn-sm btn-outline-primary rounded-pill px-3">Áp dụng</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

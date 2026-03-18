@@ -1,0 +1,71 @@
+@model blog_ca_nhan.Models.Blog?
+@{
+    ViewData["Title"] = "Cài đặt";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">Cài đặt</h1>
+</div>
+
+@if (Model == null)
+{
+    <div class="admin-card">
+        <div class="empty-state">
+            <h3>Chưa có Blog nào</h3>
+            <p>Tạo blog trước để truy cập phần cài đặt.</p>
+            <a asp-action="CreateBlog" class="btn btn-primary rounded-pill px-4">Tạo Blog ngay</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="admin-card mb-4">
+                <h5 class="fw-bold mb-4">Thông tin chung</h5>
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tên Blog</label>
+                        <input type="text" class="form-control rounded-3" value="@Model.Title">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Mô tả</label>
+                        <textarea class="form-control rounded-3" rows="2">@Model.Description</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Subdomain</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control rounded-start-3" value="@Model.Subdomain" readonly>
+                            <span class="input-group-text bg-light text-muted">.blog-ca-nhan.local</span>
+                        </div>
+                        <div class="form-text">Subdomain không thể thay đổi sau khi tạo.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-semibold">Lưu thay đổi</button>
+                </form>
+            </div>
+
+            <div class="admin-card border-danger">
+                <h5 class="fw-bold mb-3 text-danger">Vùng nguy hiểm</h5>
+                <p class="text-muted small">Việc xoá blog là không thể phục hồi. Tất cả bài viết, bình luận và media đều sẽ bị xoá.</p>
+                <button class="btn btn-outline-danger rounded-pill px-4 fw-semibold small" onclick="return confirm('Bạn chắc chắn muốn xoá blog này?')">
+                    <i class="fa-solid fa-trash me-1"></i>Xoá Blog
+                </button>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="admin-card mb-3">
+                <h6 class="fw-bold mb-3">Gói dịch vụ</h6>
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="plan-badge plan-free fs-6">@Model.Plan?.Name ?? "Free"</span>
+                </div>
+                <a href="#" class="btn btn-primary rounded-pill w-100 fw-semibold">Nâng cấp gói</a>
+            </div>
+            <div class="admin-card">
+                <h6 class="fw-bold mb-3">Ngày tạo</h6>
+                <p class="text-muted mb-0">@Model.CreatedAt?.ToString("dd MMMM yyyy")</p>
+            </div>
+        </div>
+    </div>
+}

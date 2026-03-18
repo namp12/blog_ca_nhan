@@ -1,0 +1,127 @@
+@model List<blog_ca_nhan.Models.Blog>
+@{
+    ViewData["Title"] = "Trang web";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">Trang web</h1>
+    @if (Model.Any())
+    {
+        <a asp-action="CreateBlog" class="btn btn-primary rounded-pill px-4 fw-600">
+            + Thêm trang web mới
+        </a>
+    }
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-4">
+        <i class="fa-solid fa-check-circle me-2"></i>@TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger border-0 rounded-3 mb-4">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>@TempData["Error"]
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <!-- Empty State: Chưa có blog nào -->
+    <div class="empty-state">
+        <h3>Bạn chưa có bất kỳ trang web nào</h3>
+        <p>Bắt đầu một trang web và bắt đầu tạo, viết mã hoặc khám phá những gì nền tảng có thể làm.</p>
+    </div>
+    
+    <div>
+        <div class="create-option">
+            <div class="create-option-left">
+                <div class="create-option-icon" style="background:#e8f4fd; color:#0969da">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div class="create-option-text">
+                    <h6>Tự tạo nó</h6>
+                    <p>Bắt đầu với một trang web sạch sẽ và biến nó thành của bạn.</p>
+                </div>
+            </div>
+            <a asp-action="CreateBlog" class="btn btn-primary rounded-pill px-4 fw-semibold small">Tạo trang web</a>
+        </div>
+        
+        <div class="create-option">
+            <div class="create-option-left">
+                <div class="create-option-icon" style="background:#fef3c7; color:#d97706">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="create-option-text">
+                    <h6>Xây dựng bằng AI</h6>
+                    <p>Mô tả ý tưởng của bạn và để AI giúp bạn thiết kế.</p>
+                </div>
+            </div>
+            <button class="btn btn-outline-secondary rounded-pill px-4 fw-semibold small">Xây dựng bằng AI</button>
+        </div>
+        
+        <div class="create-option">
+            <div class="create-option-left">
+                <div class="create-option-icon" style="background:#f0fdf4; color:#16a34a">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </div>
+                <div class="create-option-text">
+                    <h6>Di chuyển</h6>
+                    <p>Đưa trang web của bạn đến nền tảng tốt nhất.</p>
+                </div>
+            </div>
+            <button class="btn btn-outline-secondary rounded-pill px-4 fw-semibold small">Bắt đầu di chuyển</button>
+        </div>
+    </div>
+    
+    <div class="promo-banner">
+        <div class="d-flex gap-3 align-items-center">
+            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=80&h=80&fit=crop" class="rounded-2" width="60" height="60" alt="Promo" style="object-fit:cover">
+            <div>
+                <strong>Nhận miễn phí và giảm giá tới 55%</strong>
+                <p class="mb-0 small opacity-75">Tiết kiệm tới 55% cho các gói hàng năm và nhận miễn phí cho một năm.</p>
+            </div>
+        </div>
+        <a href="#" class="btn btn-light rounded-pill px-4 fw-semibold small text-nowrap">Mở khóa ưu đãi</a>
+    </div>
+}
+else
+{
+    <div class="admin-card">
+        @foreach (var blog in Model)
+        {
+            <div class="blog-item">
+                <div class="blog-icon">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <div class="blog-info flex-grow-1">
+                    <h6>@blog.Title</h6>
+                    <p>
+                        <a href="http://@blog.Subdomain.local" class="text-muted text-decoration-none">@blog.Subdomain.blog-ca-nhan.local</a>
+                        &nbsp;·&nbsp;
+                        <span class="plan-badge plan-free">@blog.Plan?.Name ?? "Free"</span>
+                        &nbsp;·&nbsp;
+                        <span class="text-muted">@blog.Posts.Count bài viết</span>
+                    </p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a asp-controller="Dashboard" asp-action="Posts" asp-route-blogId="@blog.Id" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                        <i class="fa-solid fa-file-lines me-1"></i>Bài viết
+                    </a>
+                    <a href="#" class="btn btn-sm btn-primary rounded-pill px-3">
+                        <i class="fa-solid fa-arrow-up-right-from-square me-1"></i>Xem
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-action="CreateBlog" class="btn btn-outline-primary rounded-pill px-4 fw-semibold">
+            <i class="fa-solid fa-plus me-1"></i> Thêm trang web mới
+        </a>
+    </div>
+}

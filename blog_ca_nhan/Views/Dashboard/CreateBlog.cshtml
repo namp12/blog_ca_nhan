@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Tạo Blog mới";
+    Layout = "_AdminLayout";
+    ViewData["ActiveMenu"] = "blogs";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">Tạo trang web mới</h1>
+    <a asp-action="Blogs" class="btn btn-outline-secondary rounded-pill px-4 small">Huỷ</a>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger border-0 rounded-3 mb-4">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>@TempData["Error"]
+    </div>
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <form asp-action="CreateBlog" method="post">
+            <div class="admin-card mb-4">
+                <h5 class="fw-bold mb-4">Thông tin Blog</h5>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Tên Blog của bạn <span class="text-danger">*</span></label>
+                    <input type="text" name="title" class="form-control form-control-lg rounded-3" required
+                           placeholder="Ví dụ: Nhật ký du lịch của Nam">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Địa chỉ Subdomain <span class="text-danger">*</span></label>
+                    <div class="input-group input-group-lg">
+                        <input type="text" name="subdomain" class="form-control rounded-start-3" required
+                               placeholder="phuongnam" pattern="[a-z0-9-]+" title="Chỉ dùng chữ thường, số và dấu gạch ngang">
+                        <span class="input-group-text bg-light text-muted">.blog-ca-nhan.local</span>
+                    </div>
+                    <div class="form-text">Chỉ dùng chữ thường (a-z), số (0-9) và dấu gạch ngang (-).</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Mô tả (tuỳ chọn)</label>
+                    <textarea name="description" class="form-control rounded-3" rows="3"
+                              placeholder="Mô tả ngắn gọn về blog của bạn..."></textarea>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-3">
+                <a asp-action="Blogs" class="btn btn-outline-secondary rounded-pill px-4">Huỷ</a>
+                <button type="submit" class="btn btn-primary rounded-pill px-5 fw-semibold">
+                    <i class="fa-solid fa-rocket me-2"></i>Tạo Blog ngay
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
