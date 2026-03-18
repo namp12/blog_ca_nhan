@@ -46,38 +46,38 @@
         <nav class="admin-sidebar" id="adminSidebar">
             <ul class="sidebar-nav">
                 <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "blogs" ? "active" : "")">
-                    <a asp-controller="Dashboard" asp-action="Blogs" class="sidebar-link">
+                    <a asp-area="Blogger" asp-controller="Dashboard" asp-action="Blogs" class="sidebar-link">
                         <i class="fa-solid fa-table-cells-large"></i>
                         <span>Trang web</span>
                     </a>
                 </li>
                 <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "posts" ? "active" : "")">
-                    <a asp-controller="Dashboard" asp-action="Posts" class="sidebar-link">
+                    <a asp-area="Blogger" asp-controller="Dashboard" asp-action="Posts" class="sidebar-link">
                         <i class="fa-solid fa-file-lines"></i>
                         <span>Bài viết</span>
                     </a>
                 </li>
                 <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "domains" ? "active" : "")">
-                    <a asp-controller="Dashboard" asp-action="Domains" class="sidebar-link">
+                    <a asp-area="Blogger" asp-controller="Dashboard" asp-action="Domains" class="sidebar-link">
                         <i class="fa-solid fa-globe"></i>
                         <span>Tên miền</span>
                     </a>
                 </li>
                 <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "themes" ? "active" : "")">
-                    <a asp-controller="Dashboard" asp-action="Themes" class="sidebar-link">
+                    <a asp-area="Blogger" asp-controller="Dashboard" asp-action="Themes" class="sidebar-link">
                         <i class="fa-solid fa-palette"></i>
                         <span>Chủ đề</span>
                     </a>
                 </li>
                 <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "plugins" ? "active" : "")">
-                    <a asp-controller="Dashboard" asp-action="Plugins" class="sidebar-link">
+                    <a asp-area="Blogger" asp-controller="Dashboard" asp-action="Plugins" class="sidebar-link">
                         <i class="fa-solid fa-puzzle-piece"></i>
                         <span>Plugin</span>
                         <i class="fa-solid fa-chevron-right ms-auto small"></i>
                     </a>
                 </li>
                 <li class="sidebar-item mt-auto @(ViewData["ActiveMenu"]?.ToString() == "settings" ? "active" : "")">
-                    <a asp-controller="Dashboard" asp-action="Settings" class="sidebar-link">
+                    <a asp-area="Blogger" asp-controller="Dashboard" asp-action="Settings" class="sidebar-link">
                         <i class="fa-solid fa-gear"></i>
                         <span>Cài đặt</span>
                     </a>

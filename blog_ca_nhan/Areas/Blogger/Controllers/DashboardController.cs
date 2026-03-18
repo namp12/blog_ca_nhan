@@ -5,8 +5,9 @@ using blog_ca_nhan.Data;
 using blog_ca_nhan.Models;
 using System.Security.Claims;
 
-namespace blog_ca_nhan.Controllers;
+namespace blog_ca_nhan.Areas.Blogger.Controllers;
 
+[Area("Blogger")]
 [Authorize(AuthenticationSchemes = "CookieAuth")]
 public class DashboardController : Controller
 {
