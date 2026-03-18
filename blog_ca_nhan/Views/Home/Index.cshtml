@@ -1,8 +1,187 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Xây dựng website của bạn";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section text-center">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h1 class="hero-title">Nơi ý tưởng lớn <br><span class="fst-italic opacity-75">tìm thấy ngôi nhà.</span></h1>
+                <p class="fs-4 mb-5 opacity-90 mx-auto" style="max-width: 700px;">
+                    Nền tảng xuất bản nội dung số phổ biến nhất thế giới. 
+                    Tự do, linh hoạt và mạnh mẽ cho mọi blogger, doanh nghiệp và nhà phát triển.
+                </p>
+                <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                    <a href="#" class="btn-premium fs-5">Bắt đầu blog của bạn</a>
+                    <a href="#" class="btn-premium-outline fs-5">Xem các gói dịch vụ</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<section class="py-5 bg-light border-bottom">
+    <div class="container">
+        <p class="text-center text-muted small fw-bold text-uppercase mb-4">Được tin dùng bởi các thương hiệu hàng đầu</p>
+        <div class="d-flex flex-wrap justify-content-center gap-5 opacity-50 grayscale">
+            <i class="fab fa-apple fa-3x"></i>
+            <i class="fab fa-microsoft fa-3x"></i>
+            <i class="fab fa-google fa-3x"></i>
+            <i class="fab fa-amazon fa-3x"></i>
+            <i class="fab fa-spotify fa-3x"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Domain Search Section -->
+<section class="py-5 my-5">
+    <div class="container text-center">
+        <h2 class="display-5 font-heading mb-3">Tìm "ngôi nhà" cho website của bạn</h2>
+        <p class="text-muted fs-5 mb-5">Sở hữu tên miền chuyên nghiệp .com, .blog, .net chỉ từ $13/năm.</p>
+        
+        <div class="domain-search-box">
+            <input type="text" placeholder="Tìm kiếm tên miền mơ ước của bạn...">
+            <button class="btn btn-primary rounded-pill px-5 fw-bold">Tìm kiếm</button>
+        </div>
+        
+        <div class="mt-4 d-flex justify-content-center gap-4 text-muted small">
+            <span>.com $13</span>
+            <span>.blog $22</span>
+            <span>.net $15</span>
+            <span>.org $18</span>
+        </div>
+    </div>
+</section>
+
+<!-- Infinite Scrolling Themes Section -->
+<section class="py-5 overflow-hidden">
+    <div class="container mb-4">
+        <div class="d-flex justify-content-between align-items-end">
+            <div>
+                <h2 class="h1 font-heading">Kéo, thả, và tỏa sáng</h2>
+                <p class="text-muted fs-5">Hàng trăm mẫu thiết kế và layout đẹp mắt có sẵn.</p>
+            </div>
+            <a href="#" class="btn btn-outline-primary rounded-pill px-4 mb-3">Xem tất cả giao diện</a>
+        </div>
+    </div>
+    
+    <div class="scrolling-container">
+        <div class="scrolling-wrapper">
+            <!-- First set of items -->
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d" alt="Theme 1"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d" alt="Theme 2"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4" alt="Theme 3"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" alt="Theme 4"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1558655146-d09347e92766" alt="Theme 5"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1454165833767-027ffea9e77b" alt="Theme 6"></div>
+            <!-- Duplicate for infinite effect -->
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d" alt="Theme 1"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d" alt="Theme 2"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4" alt="Theme 3"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" alt="Theme 4"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1558655146-d09347e92766" alt="Theme 5"></div>
+            <div class="scrolling-item"><img src="https://images.unsplash.com/photo-1454165833767-027ffea9e77b" alt="Theme 6"></div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 my-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-4 mb-3">Tất cả những gì bạn cần</h2>
+            <p class="text-muted fs-5">Từ blogger cá nhân đến cửa hàng trực tuyến quy mô lớn.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-palette"></i></div>
+                    <h3>Thiết kế không giới hạn</h3>
+                    <p class="text-muted">Hàng nghìn theme đẹp mắt và khả năng tùy chỉnh CSS/HTML sâu cho phép bạn tạo ra website độc bản.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <h3>Tốc độ & Hiệu suất</h3>
+                    <p class="text-muted">Cơ sở hạ tầng toàn cầu giúp trang của bạn tải nhanh như chớp, tối ưu hóa điểm số Core Web Vitals.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>Công cụ Marketing</h3>
+                    <p class="text-muted">Tích hợp sẵn SEO, phân tích số liệu và các công cụ chia sẻ mạng xã hội thông minh.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enterprise Section -->
+<section class="enterprise-section">
+    <div class="container">
+        <div class="enterprise-card flex-column flex-lg-row">
+            <div class="col-lg-6">
+                <span class="vip-badge">VIP ENTERPRISE</span>
+                <h2 class="display-4 font-heading mb-4">Bạn nghĩ chúng tôi không dành cho doanh nghiệp lớn?</h2>
+                <p class="fs-5 text-muted mb-5">Được tin dùng bởi Salesforce, CNN và Time. Nền tảng Enterprise của chúng tôi mang lại hiệu suất quy mô lớn với tính bảo mật cao nhất.</p>
+                <a href="#" class="btn btn-dark rounded-pill px-5 py-3 fw-bold">Tìm hiểu về VIP</a>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-4 grayscale opacity-75">
+                    <div class="col-4 text-center"><i class="fab fa-slack fa-3x"></i></div>
+                    <div class="col-4 text-center"><i class="fab fa-salesforce fa-3x"></i></div>
+                    <div class="col-4 text-center"><i class="fab fa-atlassian fa-3x"></i></div>
+                    <div class="col-4 text-center"><i class="fab fa-adobe fa-3x"></i></div>
+                    <div class="col-4 text-center"><i class="fab fa-airbnb fa-3x"></i></div>
+                    <div class="col-4 text-center"><i class="fab fa-dropbox fa-3x"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter & Growth Section -->
+<section class="py-5 my-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h2 class="display-5 font-heading mb-4">Mãi mãi là "nhà" cho nội dung của bạn</h2>
+                <div class="newsletter-box mb-4">
+                    <h4 class="fw-bold mb-3 text-primary">Phát triển Newsletter</h4>
+                    <p class="text-muted">Tiếp cận độc giả trực tiếp qua email. Chia sẻ câu chuyện của bạn với các tính năng đăng ký mạnh mẽ.</p>
+                </div>
+                <div class="ps-4 mb-4">
+                    <h5 class="fw-bold">Tham gia cộng đồng blogging</h5>
+                    <p class="text-muted small">Kết nối với hàng triệu nhà sáng tạo nội dung khác.</p>
+                </div>
+                <div class="ps-4">
+                    <h5 class="fw-bold">Khám phá nội dung chất lượng</h5>
+                    <p class="text-muted small">Tìm kiếm các blog hay nhất thế giới.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3" class="img-fluid rounded-4 shadow-premium" alt="Growth">
+                    <div class="position-absolute bottom-0 start-0 m-4 p-3 bg-white rounded-circle shadow-lg text-primary">
+                        <i class="fa-solid fa-paper-plane fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-primary text-white text-center rounded-4 overflow-hidden mb-5 mx-3 mx-lg-5">
+    <div class="container py-5">
+        <h2 class="display-5 mb-4 font-heading">Sẵn sàng để đưa ý tưởng của bạn ra thế giới?</h2>
+        <p class="fs-4 mb-5 opacity-75">Gia nhập cộng đồng hơn 100 triệu người dùng ngay hôm nay.</p>
+        <a href="#" class="btn-premium btn-lg rounded-pill px-5">Tạo trang web của bạn</a>
+    </div>
+</section>
+
+<style>
+    .grayscale { filter: grayscale(100%); transition: filter 0.3s; }
+    .grayscale:hover { filter: grayscale(0%); }
+    .opacity-10 { opacity: 0.1 !important; }
+</style>

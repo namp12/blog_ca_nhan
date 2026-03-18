@@ -1,0 +1,51 @@
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="feature-card shadow-premium border-0 p-5">
+                <div class="text-center mb-4">
+                    <h2 class="font-heading display-6">Bắt đầu ngay hôm nay</h2>
+                    <p class="text-muted">Tạo tài khoản để xây dựng blog của bạn.</p>
+                </div>
+
+                <form asp-action="Register" method="post">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger border-0 small">
+                            <div asp-validation-summary="All"></div>
+                        </div>
+                    }
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tên hiển thị</label>
+                        <input name="displayName" type="text" class="form-control form-control-lg rounded-3 fs-6" required placeholder="Nguyễn Văn A">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tên đăng nhập</label>
+                        <input name="username" type="text" class="form-control form-control-lg rounded-3 fs-6" required placeholder="pnam_blogger">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email</label>
+                        <input name="email" type="email" class="form-control form-control-lg rounded-3 fs-6" required placeholder="name@example.com">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Mật khẩu</label>
+                        <input name="password" type="password" class="form-control form-control-lg rounded-3 fs-6" required placeholder="••••••••">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold fs-5 shadow-sm">Đăng ký tài khoản</button>
+                    
+                    <div class="text-center mt-4">
+                        <p class="text-muted small">Đã có tài khoản? <a asp-action="Login" class="text-primary fw-bold text-decoration-none">Đăng nhập</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

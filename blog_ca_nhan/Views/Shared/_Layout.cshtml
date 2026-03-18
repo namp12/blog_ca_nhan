@@ -1,47 +1,118 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - blog_ca_nhan</title>
-    <script type="importmap"></script>
+    
+    <!-- Google Fonts: Playfair Display & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/blog_ca_nhan.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">blog_ca_nhan</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+    <header class="glass-header">
+        <nav class="navbar navbar-expand-lg py-3">
+            <div class="container">
+                <a class="navbar-brand fs-3 fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="text-primary"><i class="fa-solid fa-wand-magic-sparkles me-2"></i></span>blog_ca_nhan
+                </a>
+                <button class="navbar-toggler py-2 px-3 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <span class="fa-solid fa-bars-staggered text-primary"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav mx-auto fs-6">
+                        <li class="nav-item px-3"><a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Products</a></li>
+                        <li class="nav-item px-3"><a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Features</a></li>
+                        <li class="nav-item px-3"><a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Resources</a></li>
+                        <li class="nav-item px-3"><a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Pricing</a></li>
                     </ul>
+                    <div class="d-flex align-items-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <span class="text-dark fw-bold me-3">Hi, @User.FindFirst("DisplayName")?.Value</span>
+                            <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger rounded-pill px-4 py-2 fw-bold small">Đăng xuất</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login" class="nav-link text-dark fw-bold px-3 d-none d-lg-block">Log in</a>
+                            <a asp-controller="Account" asp-action="Register" class="btn btn-primary rounded-pill px-4 py-2 ms-2 fw-bold shadow-sm">Get started</a>
+                        }
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="footer-premium">
         <div class="container">
-            &copy; 2026 - blog_ca_nhan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <h4 class="text-white mb-4">blog_ca_nhan</h4>
+                    <p class="mb-4">Nền tảng xuất bản nội dung số hàng đầu cho các nhà sáng tạo nội dung hiện đại.</p>
+                    <div class="d-flex gap-3 fs-5">
+                        <a href="#" class="footer-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="footer-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="footer-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Products</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">WordPress</a></li>
+                        <li><a href="#" class="footer-link">WooCommerce</a></li>
+                        <li><a href="#" class="footer-link">Jetpack</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Features</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Design</a></li>
+                        <li><a href="#" class="footer-link">Marketing</a></li>
+                        <li><a href="#" class="footer-link">Domains</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Support</a></li>
+                        <li><a href="#" class="footer-link">Community</a></li>
+                        <li><a href="#" class="footer-link">Developers</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Company</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-5 opacity-10">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <p class="mb-0 small">&copy; 2026 blog_ca_nhan. Built with passion by Phuong Nam.</p>
+                <div class="small mt-3 mt-md-0">
+                    <a href="#" class="text-decoration-none footer-link d-inline me-3">Vietnamese</a>
+                    <a href="#" class="text-decoration-none footer-link d-inline">English</a>
+                </div>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
