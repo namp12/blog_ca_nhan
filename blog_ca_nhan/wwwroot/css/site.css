@@ -103,6 +103,41 @@ h1, h2, h3, h4, .brand-font {
     box-shadow: var(--shadow-lg);
 }
 
+/* WordPress.com Header Buttons */
+.btn-wp-primary {
+    background-color: #0675d2;
+    color: white !important;
+    font-weight: 700;
+    padding: 10px 24px;
+    border-radius: 100px;
+    border: none;
+    transition: background-color 0.2s;
+    font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn-wp-primary:hover {
+    background-color: #005580;
+    color: white !important;
+}
+
+.nav-link-wp {
+    color: #1e293b;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    padding: 10px 20px;
+    transition: opacity 0.2s;
+}
+
+.nav-link-wp:hover {
+    opacity: 0.7;
+    color: #1e293b;
+}
+
 .btn-premium-outline {
     background-color: transparent;
     color: white;
