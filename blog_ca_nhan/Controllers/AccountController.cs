@@ -76,7 +76,11 @@ public class AccountController : Controller
 
                 await HttpContext.SignInAsync("CookieAuth", principal);
 
-                return RedirectToAction("Index", "Home");
+                if (user.IsPlatformAdmin == true)
+                {
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                }
+                return RedirectToAction("Blogs", "Dashboard", new { area = "Blogger" });
             }
         }
 
