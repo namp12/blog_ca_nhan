@@ -33,6 +33,13 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
+// Seed Admin Data
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await DbInitializer.SeedAdminUser(services);
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
