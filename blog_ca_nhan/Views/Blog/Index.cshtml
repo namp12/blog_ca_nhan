@@ -1,6 +1,6 @@
 @model blog_ca_nhan.Models.Blog
 @{
-    Layout = null; // We'll use a dedicated layout for public blogs
+    Layout = null;
     var themeClass = Model.CurrentTheme?.Name?.ToLower().Replace(" ", "-") ?? "default";
 }
 
@@ -23,7 +23,6 @@
             --blog-text: #1e293b;
         }
 
-        /* Dynamic Theme Overrides */
         .theme-minimalist { --blog-primary: #000; --blog-bg: #fff; }
         .theme-modern { --blog-primary: #0675d2; --blog-bg: #f8fafc; }
         .theme-e-commerce { --blog-primary: #16a34a; --blog-bg: #fff; }
@@ -132,15 +131,12 @@
                 <br>
                 <span class="small">By <strong>@Model.Owner?.DisplayName</strong></span>
             </p>
-            @if (!string.IsNullOrEmpty(Model.Owner?.Bio))
-            {
-                <p class="small text-muted mt-2">@Model.Owner.Bio</p>
-            }
         </div>
     </header>
 
     <main class="container py-5">
-        <div class="row justify-content-center">
+        <div class="row">
+            <!-- Main Content -->
             <div class="col-lg-8">
                 @if (!Model.Posts.Any())
                 {
@@ -165,6 +161,54 @@
                         </div>
                     }
                 }
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="sidebar-box mb-4">
+                    <h5 class="fw-bold mb-3">Chuyên mục</h5>
+                    <div class="list-group list-group-flush border-top border-bottom">
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 d-flex justify-content-between align-items-center">
+                                @cat.Name
+                                <span class="badge bg-light text-muted rounded-pill">@cat.Posts.Count</span>
+                            </a>
+                        }
+                    </div>
+                </div>
+
+                <div class="sidebar-box mb-4 p-4 bg-light rounded-4">
+                    <h5 class="fw-bold mb-3">Về tác giả</h5>
+                    <p class="small text-muted mb-3">@Model.Owner?.Bio</p>
+                    
+                    <div class="d-flex flex-wrap gap-3 mt-3">
+                        @if (!string.IsNullOrEmpty(Model.Owner?.GitHubUrl))
+                        {
+                            <a href="@Model.Owner.GitHubUrl" target="_blank" class="text-dark fs-5" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Owner?.DiscordUrl))
+                        {
+                            <a href="@Model.Owner.DiscordUrl" target="_blank" class="text-primary fs-5" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Owner?.LinkedInUrl))
+                        {
+                            <a href="@Model.Owner.LinkedInUrl" target="_blank" class="text-info fs-5" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Owner?.FacebookUrl))
+                        {
+                            <a href="@Model.Owner.FacebookUrl" target="_blank" class="text-primary fs-5" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Owner?.TwitterUrl))
+                        {
+                            <a href="@Model.Owner.TwitterUrl" target="_blank" class="text-dark fs-5" title="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Owner?.WebsiteUrl))
+                        {
+                            <a href="@Model.Owner.WebsiteUrl" target="_blank" class="text-success fs-5" title="Website"><i class="fa-solid fa-globe"></i></a>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </main>

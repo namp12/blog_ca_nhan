@@ -1,0 +1,95 @@
+@model List<blog_ca_nhan.Models.Medium>
+@{
+    ViewData["Title"] = "Thư viện Media";
+    ViewData["ActiveMenu"] = "media";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">🖼️ Thư viện Media</h1>
+    <button type="button" class="btn btn-primary rounded-pill px-4 fw-600" data-bs-toggle="modal" data-bs-target="#uploadModal">
+        <i class="fa-solid fa-cloud-arrow-up me-2"></i>Tải lên
+    </button>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-4">
+        <i class="fa-solid fa-check-circle me-2"></i>@TempData["Success"]
+    </div>
+}
+
+<div class="admin-card">
+    <div class="row g-3">
+        @if (!Model.Any())
+        {
+            <div class="col-12 text-center py-5">
+                <i class="fa-solid fa-images fa-3x text-light mb-3"></i>
+                <p class="text-muted">Chưa có tệp tin nào trong thư viện.</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="media-item-card h-100 position-relative border rounded-3 overflow-hidden shadow-sm">
+                        <div class="ratio ratio-1x1 bg-light">
+                            @if (item.FileType.StartsWith("image"))
+                            {
+                                <img src="@item.FilePath" class="object-fit-cover" alt="@item.FileName">
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center justify-content-center text-muted">
+                                    <i class="fa-solid fa-file fa-3x"></i>
+                                </div>
+                            }
+                        </div>
+                        <div class="media-item-info p-2 small">
+                            <div class="text-truncate fw-semibold" title="@item.FileName">@item.FileName</div>
+                            <div class="text-muted" style="font-size: 0.7rem;">@(((item.FileSize ?? 0) / 1024.0).ToString("F1")) KB</div>
+                        </div>
+                        <div class="media-actions position-absolute top-0 end-0 p-1">
+                            <form asp-action="Delete" method="post" onsubmit="return confirm('Xoá tệp tin này?')">
+                                <input type="hidden" name="id" value="@item.Id">
+                                <button type="submit" class="btn btn-sm btn-danger rounded-circle p-1 opacity-75 hover-opacity-100" style="width:24px; height:24px;">
+                                    <i class="fa-solid fa-times" style="font-size:0.7rem"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow rounded-4">
+            <div class="modal-header border-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold">Tải lên tệp tin mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="Upload" method="post" enctype="multipart/form-data">
+                <div class="modal-body px-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Chọn tệp tin (Ảnh, v.v.)</label>
+                        <input type="file" name="file" class="form-control rounded-3" required accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer border-0 px-4 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Huỷ</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Bắt đầu tải lên</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .media-item-card:hover .media-actions { display: block; }
+    .object-fit-cover { width: 100%; height: 100%; object-fit: cover; }
+</style>

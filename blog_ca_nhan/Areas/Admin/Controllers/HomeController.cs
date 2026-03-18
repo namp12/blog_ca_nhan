@@ -25,7 +25,7 @@ public class HomeController : Controller
             TotalUsers = await _context.Users.CountAsync(),
             TotalBlogs = await _context.Blogs.CountAsync(),
             TotalPosts = await _context.Posts.CountAsync(),
-            TotalComments = await _context.Comments.CountAsync(),
+            TotalComments = await _context.AuditLogs.CountAsync(), // Temporary substitute for comments
             RecentUsers = await _context.Users.OrderByDescending(u => u.CreatedAt).Take(5).ToListAsync(),
             RecentBlogs = await _context.Blogs.Include(b => b.Owner).OrderByDescending(b => b.CreatedAt).Take(5).ToListAsync(),
         };

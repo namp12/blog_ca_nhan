@@ -1,0 +1,7 @@
+﻿E:\blog_ca_nhan\blog_ca_nhan\Areas\Blogger\Views\Media\Index.cshtml(51,107): error CS1501: No overload for method 'ToString' takes 1 arguments [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+
+Build FAILED.
+    2 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.81

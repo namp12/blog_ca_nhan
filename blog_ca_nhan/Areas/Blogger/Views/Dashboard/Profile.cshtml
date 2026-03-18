@@ -1,0 +1,367 @@
+@model blog_ca_nhan.Models.User?
+@{
+    ViewData["Title"] = "Trang cá nhân";
+    Layout = "_AdminLayout";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    .profile-cover {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 60%, #ec4899 100%);
+        height: 180px;
+        border-radius: 16px 16px 0 0;
+        position: relative;
+    }
+    .avatar-wrap {
+        position: absolute;
+        bottom: -50px;
+        left: 36px;
+    }
+    .avatar-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        object-fit: cover;
+        background: #e0e7ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #6366f1;
+        overflow: hidden;
+    }
+    .avatar-upload-btn {
+        position: absolute;
+        bottom: 0; right: 0;
+        background: #6366f1;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px; height: 30px;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        font-size: .8rem;
+    }
+    .profile-card {
+        border-radius: 0 0 16px 16px;
+        border: 1px solid #e5e7eb;
+        border-top: none;
+        background: white;
+        padding: 70px 36px 30px;
+    }
+    .section-title {
+        font-size: .7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #9ca3af;
+        margin-bottom: 1rem;
+    }
+    .form-section {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #f3f4f6;
+    }
+    .inp {
+        width: 100%;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: .95rem;
+        background: white;
+        transition: border-color .15s;
+        outline: none;
+    }
+    .inp:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,.1); }
+    .inp-label { font-size: .8rem; font-weight: 600; color: #374151; margin-bottom: .45rem; }
+    .social-row { display: flex; align-items: center; gap: .6rem; }
+    .social-icon-box {
+        width: 40px; height: 40px;
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+    .save-btn {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 36px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: opacity .2s;
+    }
+    .save-btn:hover { opacity: .88; }
+    .avatar-placeholder {
+        width: 100px; height: 100px;
+        border-radius: 50%;
+        border: 4px solid white;
+        background: linear-gradient(135deg, #c7d2fe, #e0e7ff);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 2.2rem; font-weight: 700; color: #6366f1;
+    }
+</style>
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">Trang cá nhân</h1>
+    <p class="text-muted mb-0">Cập nhật thông tin và liên kết mạng xã hội của bạn</p>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-4 d-flex align-items-center gap-2" style="background:#f0fdf4; color:#166534">
+        <i class="fa-solid fa-circle-check fs-5"></i>
+        <span>@TempData["Success"]</span>
+    </div>
+}
+
+<form method="post" asp-area="Blogger" asp-controller="Dashboard" asp-action="Profile" enctype="multipart/form-data">
+    <div class="row g-4">
+        <!-- LEFT: Preview + Avatar -->
+        <div class="col-lg-4">
+            <div class="mb-4" style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.08)">
+                <div class="profile-cover">
+                    <div class="avatar-wrap">
+                        @if (!string.IsNullOrEmpty(Model?.AvatarUrl))
+                        {
+                            <div style="position:relative">
+                                <img src="@Model!.AvatarUrl" class="avatar-img" />
+                                <label for="avatarFile" class="avatar-upload-btn" title="Đổi ảnh">
+                                    <i class="fa-solid fa-camera"></i>
+                                </label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="position:relative">
+                                <div class="avatar-placeholder">
+                                    @((Model?.DisplayName?.Length > 0 ? Model.DisplayName[0].ToString().ToUpper() : "U"))
+                                </div>
+                                <label for="avatarFile" class="avatar-upload-btn" title="Thêm ảnh">
+                                    <i class="fa-solid fa-camera"></i>
+                                </label>
+                            </div>
+                        }
+                        <input type="file" id="avatarFile" name="avatarFile" accept="image/*" class="d-none" onchange="previewAvatar(this)">
+                    </div>
+                </div>
+                <div class="profile-card">
+                    <h5 class="fw-bold mb-0" id="previewName">@Model?.DisplayName</h5>
+                    <p class="text-muted small mb-1" id="previewOccupation">@Model?.Occupation</p>
+                    <p class="text-muted small mb-3" id="previewLocation">
+                        @if (!string.IsNullOrEmpty(Model?.Location)) { <text><i class="fa-solid fa-location-dot me-1"></i>@Model.Location</text> }
+                    </p>
+                    <p class="small" id="previewBio">@Model?.Bio</p>
+
+                    <!-- Social Icons Preview -->
+                    <div class="d-flex flex-wrap gap-2 mt-2">
+                        @if (!string.IsNullOrEmpty(Model?.GitHubUrl))
+                        {
+                            <a href="@Model.GitHubUrl" target="_blank" class="text-dark fs-5"><i class="fa-brands fa-github"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model?.FacebookUrl))
+                        {
+                            <a href="@Model.FacebookUrl" target="_blank" style="color:#1877f2" class="fs-5"><i class="fa-brands fa-facebook-f"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model?.YoutubeUrl))
+                        {
+                            <a href="@Model.YoutubeUrl" target="_blank" style="color:#ff0000" class="fs-5"><i class="fa-brands fa-youtube"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model?.InstagramUrl))
+                        {
+                            <a href="@Model.InstagramUrl" target="_blank" style="color:#e1306c" class="fs-5"><i class="fa-brands fa-instagram"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model?.TikTokUrl))
+                        {
+                            <a href="@Model.TikTokUrl" target="_blank" class="text-dark fs-5"><i class="fa-brands fa-tiktok"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model?.TwitterUrl))
+                        {
+                            <a href="@Model.TwitterUrl" target="_blank" class="text-dark fs-5"><i class="fa-brands fa-x-twitter"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model?.LinkedInUrl))
+                        {
+                            <a href="@Model.LinkedInUrl" target="_blank" style="color:#0077b5" class="fs-5"><i class="fa-brands fa-linkedin-in"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model?.DiscordUrl))
+                        {
+                            <a href="@Model.DiscordUrl" target="_blank" style="color:#5865f2" class="fs-5"><i class="fa-brands fa-discord"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model?.WebsiteUrl))
+                        {
+                            <a href="@Model.WebsiteUrl" target="_blank" style="color:#22c55e" class="fs-5"><i class="fa-solid fa-globe"></i></a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bank Info Preview -->
+            @if (!string.IsNullOrEmpty(Model?.BankAccountNumber))
+            {
+                <div class="admin-card p-3">
+                    <div class="section-title"><i class="fa-solid fa-landmark me-1"></i>Tài khoản Ngân hàng</div>
+                    <p class="mb-1 fw-bold">@Model!.BankAccountName</p>
+                    <p class="mb-1 fw-semibold text-primary fs-5">@Model.BankAccountNumber</p>
+                    <p class="text-muted small mb-0">@Model.BankBranch</p>
+                </div>
+            }
+        </div>
+
+        <!-- RIGHT: Edit Form -->
+        <div class="col-lg-8">
+            <!-- Thông tin cơ bản -->
+            <div class="form-section">
+                <div class="section-title"><i class="fa-solid fa-user me-1"></i>Thông tin cơ bản</div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="inp-label">Tên hiển thị <span class="text-danger">*</span></div>
+                        <input name="displayName" class="inp" value="@Model?.DisplayName" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">Nghề nghiệp</div>
+                        <input name="occupation" class="inp" value="@Model?.Occupation" placeholder="Lập trình viên, Nhiếp ảnh gia...">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">Số điện thoại</div>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-phone text-muted"></i></span>
+                            <input name="phoneNumber" type="tel" class="form-control" value="@Model?.PhoneNumber" placeholder="0912 345 678">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">Địa chỉ / Khu vực</div>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-location-dot text-muted"></i></span>
+                            <input name="location" class="form-control" value="@Model?.Location" placeholder="Hà Nội, Việt Nam">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="inp-label">Giới thiệu bản thân (Bio)</div>
+                        <textarea name="bio" class="inp" rows="4" placeholder="Hãy kể một chút về bạn...">@Model?.Bio</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mạng xã hội -->
+            <div class="form-section">
+                <div class="section-title"><i class="fa-solid fa-share-nodes me-1"></i>Mạng xã hội & Liên kết</div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="inp-label">GitHub</div>
+                        <div class="social-row">
+                            <div class="social-icon-box" style="border:1px solid #e5e7eb"><i class="fa-brands fa-github"></i></div>
+                            <input name="githubUrl" class="inp" value="@Model?.GitHubUrl" placeholder="https://github.com/username">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">Facebook</div>
+                        <div class="social-row">
+                            <div class="social-icon-box" style="border:1px solid #e5e7eb"><i class="fa-brands fa-facebook-f" style="color:#1877f2"></i></div>
+                            <input name="facebookUrl" class="inp" value="@Model?.FacebookUrl" placeholder="https://facebook.com/username">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">YouTube</div>
+                        <div class="social-row">
+                            <div class="social-icon-box" style="border:1px solid #e5e7eb"><i class="fa-brands fa-youtube" style="color:#ff0000"></i></div>
+                            <input name="youtubeUrl" class="inp" value="@Model?.YoutubeUrl" placeholder="https://youtube.com/@@channel">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">Instagram</div>
+                        <div class="social-row">
+                            <div class="social-icon-box" style="border:1px solid #e5e7eb"><i class="fa-brands fa-instagram" style="color:#e1306c"></i></div>
+                            <input name="instagramUrl" class="inp" value="@Model?.InstagramUrl" placeholder="https://instagram.com/username">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">TikTok</div>
+                        <div class="social-row">
+                            <div class="social-icon-box" style="border:1px solid #e5e7eb"><i class="fa-brands fa-tiktok"></i></div>
+                            <input name="tiktokUrl" class="inp" value="@Model?.TikTokUrl" placeholder="https://tiktok.com/@@username">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">Twitter (X)</div>
+                        <div class="social-row">
+                            <div class="social-icon-box" style="border:1px solid #e5e7eb"><i class="fa-brands fa-x-twitter"></i></div>
+                            <input name="twitterUrl" class="inp" value="@Model?.TwitterUrl" placeholder="https://x.com/username">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">LinkedIn</div>
+                        <div class="social-row">
+                            <div class="social-icon-box" style="border:1px solid #e5e7eb"><i class="fa-brands fa-linkedin-in" style="color:#0077b5"></i></div>
+                            <input name="linkedinUrl" class="inp" value="@Model?.LinkedInUrl" placeholder="https://linkedin.com/in/username">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">Discord</div>
+                        <div class="social-row">
+                            <div class="social-icon-box" style="border:1px solid #e5e7eb"><i class="fa-brands fa-discord" style="color:#5865f2"></i></div>
+                            <input name="discordUrl" class="inp" value="@Model?.DiscordUrl" placeholder="Link mời Discord...">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">Website cá nhân</div>
+                        <div class="social-row">
+                            <div class="social-icon-box" style="border:1px solid #e5e7eb"><i class="fa-solid fa-globe" style="color:#22c55e"></i></div>
+                            <input name="websiteUrl" class="inp" value="@Model?.WebsiteUrl" placeholder="https://mywebsite.com">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Ngân hàng -->
+            <div class="form-section">
+                <div class="section-title"><i class="fa-solid fa-landmark me-1"></i>Thông tin Ngân hàng (Tuỳ chọn)</div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="inp-label">Tên tài khoản</div>
+                        <input name="bankAccountName" class="inp" value="@Model?.BankAccountName" placeholder="NGUYEN VAN A">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inp-label">Số tài khoản</div>
+                        <input name="bankAccountNumber" class="inp" value="@Model?.BankAccountNumber" placeholder="0123456789">
+                    </div>
+                    <div class="col-12">
+                        <div class="inp-label">Ngân hàng / Chi nhánh</div>
+                        <input name="bankBranch" class="inp" value="@Model?.BankBranch" placeholder="VietcomBank - Chi nhánh Hà Nội">
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="save-btn">
+                    <i class="fa-solid fa-floppy-disk me-2"></i>Lưu Profile
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+function previewAvatar(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const avatarEl = document.querySelector('.avatar-img, .avatar-placeholder');
+            if (avatarEl) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'avatar-img';
+                avatarEl.parentNode.replaceChild(img, avatarEl);
+            }
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>

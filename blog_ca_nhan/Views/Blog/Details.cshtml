@@ -1,6 +1,6 @@
 @model blog_ca_nhan.Models.Post
 @{
-    Layout = null; // Using independent layout
+    Layout = null;
     var blog = ViewData["Blog"] as blog_ca_nhan.Models.Blog;
     var themeClass = blog?.CurrentTheme?.Name?.ToLower().Replace(" ", "-") ?? "default";
 }
@@ -13,7 +13,7 @@
     <title>@Model.Title - @blog?.Title</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     
@@ -24,80 +24,82 @@
             --blog-text: #1e293b;
         }
 
-        .theme-minimalist { --blog-primary: #000; }
+        .theme-minimalist { --blog-primary: #000; --blog-bg: #fff; }
         .theme-modern { --blog-primary: #0675d2; --blog-bg: #f8fafc; }
-        .theme-e-commerce { --blog-primary: #16a34a; }
+        .theme-e-commerce { --blog-primary: #16a34a; --blog-bg: #fff; }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--blog-bg);
             color: var(--blog-text);
-            line-height: 1.8;
+            line-height: 1.6;
         }
 
         .post-header {
-            padding: 100px 0 60px;
+            padding: 60px 0;
             background: white;
             border-bottom: 1px solid #e2e8f0;
-        }
-
-        .post-category {
-            color: var(--blog-primary);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.85rem;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .post-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 30px;
-        }
-
-        .post-meta {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: #64748b;
-        }
-
-        .author-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .post-content {
-            font-size: 1.2rem;
-            color: #334155;
-            margin-bottom: 60px;
-        }
-
-        .post-content p {
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            color: var(--blog-text);
+            gap: 8px;
+            color: #64748b;
             text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 40px;
+            font-weight: 500;
+            margin-bottom: 20px;
         }
 
-        .back-link:hover {
+        .back-link:hover { color: var(--blog-primary); }
+
+        .post-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 15px 0;
+            line-height: 1.2;
+        }
+
+        .post-category {
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 700;
             color: var(--blog-primary);
+            letter-spacing: 1px;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .post-content {
+            font-family: 'Merriweather', serif;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #334155;
+        }
+
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .comment-item .author-avatar {
+            background: var(--blog-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
         }
 
         footer {
@@ -113,24 +115,17 @@
 
     <header class="post-header">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
+            <div class="row">
+                <div class="col-12">
                     <a href="/b/@blog?.Subdomain" class="back-link">
                         <i class="fa-solid fa-arrow-left"></i> Quay lại @blog?.Title
                     </a>
-                    
+                    <br>
                     <span class="post-category">@Model.Category?.Name</span>
                     <h1 class="post-title">@Model.Title</h1>
-                    
                     <div class="post-meta">
-                        <div class="author-avatar">
-                            @(Model.Author?.DisplayName?[0].ToString().ToUpper() ?? "A")
-                        </div>
-                        <div>
-                            <strong>@Model.Author?.DisplayName</strong>
-                            <br>
-                            <span class="small">Đã đăng ngày @Model.PublishedAt?.ToString("dd/MM/yyyy")</span>
-                        </div>
+                        <span><i class="fa-regular fa-calendar me-1"></i> @Model.PublishedAt?.ToString("dd MMMM, yyyy")</span>
+                        <span><i class="fa-regular fa-user me-1"></i> @Model.Author?.DisplayName</span>
                     </div>
                 </div>
             </div>
@@ -138,11 +133,130 @@
     </header>
 
     <main class="container py-5">
-        <div class="row justify-content-center">
+        <div class="row">
+            <!-- Content -->
             <div class="col-lg-8">
                 <article class="post-content">
                     @Html.Raw(Model.Content)
                 </article>
+
+                <hr class="my-5">
+
+                <!-- Comment Section -->
+                <div class="comments-section" id="comments">
+                    <h3 class="mb-4 fw-bold">Bình luận (@Model.Comments.Count(c => c.IsApproved == true))</h3>
+                    
+                    @if (TempData["CommentSuccess"] != null)
+                    {
+                        <div class="alert alert-success border-0 rounded-3 mb-4">
+                            @TempData["CommentSuccess"]
+                        </div>
+                    }
+
+                    <div class="comment-list mb-5">
+                        @foreach (var comment in Model.Comments.Where(c => c.IsApproved == true).OrderByDescending(c => c.CreatedAt))
+                        {
+                            <div class="comment-item mb-4 pb-4 border-bottom">
+                                <div class="d-flex gap-3">
+                                    <div class="author-avatar" style="width:48px; height:48px; flex-shrink:0;">
+                                        @(comment.AuthorName?[0].ToString().ToUpper() ?? "A")
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="fw-bold mb-0">@comment.AuthorName</h6>
+                                            <small class="text-muted">@comment.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</small>
+                                        </div>
+                                        <p class="mb-0">@comment.Content</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="comment-form-box p-4 bg-light rounded-4">
+                        <h4 class="fw-bold mb-3">Gửi bình luận</h4>
+                        <form action="/Blog/PostComment" method="post">
+                            <input type="hidden" name="PostId" value="@Model.Id">
+                            <input type="hidden" name="subdomain" value="@blog?.Subdomain">
+                            <input type="hidden" name="slug" value="@Model.Slug">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" name="AuthorName" class="form-control rounded-pill border-0 px-3 py-2" placeholder="Tên của bạn *" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" name="AuthorEmail" class="form-control rounded-pill border-0 px-3 py-2" placeholder="Email (không công khai) *" required>
+                                </div>
+                                <div class="col-12">
+                                    <textarea name="Content" class="form-control rounded-3 border-0 px-3 py-2" rows="4" placeholder="Viết bình luận của bạn tại đây..." required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold">Gửi bình luận</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="sidebar-box mb-4 p-4 bg-light rounded-4 shadow-sm border-0">
+                    <h5 class="fw-bold mb-3">Tác giả</h5>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        @if (!string.IsNullOrEmpty(Model.Author?.AvatarUrl))
+                        {
+                            <img src="@Model.Author.AvatarUrl" class="rounded-circle" style="width:48px; height:48px; object-fit:cover">
+                        }
+                        else
+                        {
+                            <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width:48px;height:48px">
+                                @((Model.Author?.DisplayName?[0].ToString().ToUpper()) ?? "A")
+                            </div>
+                        }
+                        <div>
+                            <div class="fw-bold">@Model.Author?.DisplayName</div>
+                            <div class="small text-muted">Kể từ @Model.Author?.CreatedAt?.ToString("MM/yyyy")</div>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-3">@Model.Author?.Bio</p>
+
+                    <div class="d-flex flex-wrap gap-3 mt-3">
+                        @if (!string.IsNullOrEmpty(Model.Author?.GitHubUrl))
+                        {
+                            <a href="@Model.Author.GitHubUrl" target="_blank" class="text-dark fs-5" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Author?.DiscordUrl))
+                        {
+                            <a href="@Model.Author.DiscordUrl" target="_blank" class="text-primary fs-5" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Author?.LinkedInUrl))
+                        {
+                            <a href="@Model.Author.LinkedInUrl" target="_blank" class="text-info fs-5" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Author?.FacebookUrl))
+                        {
+                            <a href="@Model.Author.FacebookUrl" target="_blank" class="text-primary fs-5" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Author?.TwitterUrl))
+                        {
+                            <a href="@Model.Author.TwitterUrl" target="_blank" class="text-dark fs-5" title="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Author?.WebsiteUrl))
+                        {
+                            <a href="@Model.Author.WebsiteUrl" target="_blank" class="text-success fs-5" title="Website"><i class="fa-solid fa-globe"></i></a>
+                        }
+                    </div>
+                </div>
+
+                <div class="sidebar-box mb-4">
+                    <h5 class="fw-bold mb-3">Thông tin Blog</h5>
+                    <div class="p-3 border rounded-3 bg-white">
+                        <div class="small fw-bold text-muted mb-1">TIÊU ĐỀ</div>
+                        <div class="mb-2">@blog?.Title</div>
+                        <div class="small fw-bold text-muted mb-1">MÔ TẢ</div>
+                        <div class="small">@blog?.Description</div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

@@ -94,6 +94,11 @@
                         <i class="fa-solid fa-globe"></i> <span>Tất cả Blog</span>
                     </a>
                 </li>
+                <li class="sidebar-item @(ViewData["AdminMenu"]?.ToString() == "posts" ? "active" : "")">
+                    <a asp-area="Admin" asp-controller="Posts" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-file-lines"></i> <span>Tất cả Bài viết</span>
+                    </a>
+                </li>
 
                 <div class="sidebar-section">Nền tảng</div>
                 <li class="sidebar-item @(ViewData["AdminMenu"]?.ToString() == "themes" ? "active" : "")">

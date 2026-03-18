@@ -1,0 +1,14 @@
+﻿E:\blog_ca_nhan\blog_ca_nhan\Data\DbInitializer.cs(49,50): error CS0117: 'Theme' does not contain a definition for 'Slug' [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Data\DbInitializer.cs(50,55): error CS0117: 'Theme' does not contain a definition for 'Slug' [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Data\DbInitializer.cs(51,54): error CS0117: 'Theme' does not contain a definition for 'Slug' [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Areas\Blogger\Views\Dashboard\Domains.cshtml(33,41): error CS1061: 'string' does not contain a definition for 'blog' and no accessible extension method 'blog' accepting a first argument of type 'string' could be found (are you missing a using directive or an assembly reference?) [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Areas\Blogger\Views\Dashboard\Blogs.cshtml(103,57): error CS1061: 'string' does not contain a definition for 'local' and no accessible extension method 'local' accepting a first argument of type 'string' could be found (are you missing a using directive or an assembly reference?) [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Areas\Blogger\Views\Dashboard\Blogs.cshtml(103,120): error CS1061: 'string' does not contain a definition for 'blog' and no accessible extension method 'blog' accepting a first argument of type 'string' could be found (are you missing a using directive or an assembly reference?) [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Areas\Admin\Views\Themes\Index.cshtml(39,66): error CS1061: 'Theme' does not contain a definition for 'Slug' and no accessible extension method 'Slug' accepting a first argument of type 'Theme' could be found (are you missing a using directive or an assembly reference?) [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Areas\Admin\Controllers\ThemesController.cs(28,13): error CS0117: 'Theme' does not contain a definition for 'Slug' [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+
+Build FAILED.
+    1 Warning(s)
+    8 Error(s)
+
+Time Elapsed 00:00:01.85

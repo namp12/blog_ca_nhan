@@ -46,10 +46,10 @@ public static class DbInitializer
         if (!await context.Themes.AnyAsync())
         {
             context.Themes.AddRange(
-                new Theme { Name = "Minimalist", Slug = "minimalist", IsPremium = false, IsActive = true },
-                new Theme { Name = "Modern Magazine", Slug = "modern-magazine", IsPremium = false, IsActive = true },
-                new Theme { Name = "E-Commerce Pro", Slug = "ecommerce-pro", IsPremium = true, IsActive = true }
-            );
+                new Theme { Name = "Minimalist", CodeName = "minimalist", Description = "Clean and simple design for writers.", IsActive = true, IsPremium = false },
+            new Theme { Name = "Modern", CodeName = "modern", Description = "Grid layout with sleek animations.", IsActive = true, IsPremium = false },
+            new Theme { Name = "E-Commerce", CodeName = "e-commerce", Description = "Perfect for small shops and boutiques.", IsActive = true, IsPremium = true }
+         );
         }
 
         await context.SaveChangesAsync();

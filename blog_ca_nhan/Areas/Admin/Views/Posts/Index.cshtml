@@ -1,0 +1,92 @@
+@model List<blog_ca_nhan.Models.Post>
+@{
+    ViewData["Title"] = "Quản lý Bài viết";
+    ViewData["AdminMenu"] = "posts";
+    Layout = "_AdminAreaLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">📝 Bài viết toàn hệ thống (@Model.Count)</h1>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-4">
+        <i class="fa-solid fa-check-circle me-2"></i>@TempData["Success"]
+    </div>
+}
+
+<div class="admin-card mb-4">
+    <form method="get" class="d-flex gap-2">
+        <input type="text" name="search" class="form-control rounded-pill" style="max-width:320px"
+               placeholder="🔍 Tiêu đề, tác giả..." value="@ViewData["Search"]">
+        <button type="submit" class="btn btn-primary rounded-pill px-4">Tìm</button>
+        @if (ViewData["Search"] != null)
+        {
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Xóa bộ lọc</a>
+        }
+    </form>
+</div>
+
+<div class="admin-card p-0">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th class="px-4 py-3 fw-semibold text-muted small border-0">TIÊU ĐỀ</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">BLOG / TÁC GIẢ</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">CHUYÊN MỤC</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">TRẠNG THÁI</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">NGÀY ĐĂNG</th>
+                <th class="px-3 py-3 border-0 text-end">HÀNH ĐỘNG</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var post in Model)
+        {
+            <tr>
+                <td class="px-4 py-3">
+                    <div class="fw-semibold text-truncate small" style="max-width:250px">@post.Title</div>
+                    <div class="text-muted" style="font-size:0.75rem">Slug: @post.Slug</div>
+                </td>
+                <td class="px-3 py-3 small">
+                    <div class="fw-bold">@post.Blog?.Title</div>
+                    <div class="text-muted">By @post.Author?.DisplayName</div>
+                </td>
+                <td class="px-3 py-3 small text-muted">@post.Category?.Name</td>
+                <td class="px-3 py-3">
+                    @if (post.Status == 1)
+                    {
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Công khai</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-light text-muted border rounded-pill">Bản nháp</span>
+                    }
+                </td>
+                <td class="px-3 py-3 small text-muted">@post.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</td>
+                <td class="px-3 py-3 text-end">
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="/b/@post.Blog?.Subdomain/@post.Slug" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                        <form asp-action="Delete" method="post" onsubmit="return confirm('Xoá bài viết này?')">
+                            <input type="hidden" name="id" value="@post.Id" />
+                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="admin-card text-center py-5">
+        <i class="fa-solid fa-magnifying-glass fa-3x text-light mb-3"></i>
+        <p class="text-muted">Không tìm thấy bài viết nào.</p>
+    </div>
+}

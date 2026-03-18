@@ -19,6 +19,62 @@ public class DashboardController : Controller
         _context = context;
     }
 
+    // ═══ PROFILE (Trang cá nhân) ═══
+    [HttpGet]
+    public async Task<IActionResult> Profile()
+    {
+        ViewData["ActiveMenu"] = "profile";
+        var user = await _context.Users.FindAsync(CurrentUserId);
+        return View(user);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Profile(
+        string displayName, string? bio, string? occupation, string? location, string? phoneNumber,
+        string? githubUrl, string? discordUrl, string? linkedinUrl, string? facebookUrl,
+        string? twitterUrl, string? websiteUrl, string? youtubeUrl, string? instagramUrl, string? tiktokUrl,
+        string? bankAccountName, string? bankAccountNumber, string? bankBranch,
+        IFormFile? avatarFile)
+    {
+        var user = await _context.Users.FindAsync(CurrentUserId);
+        if (user == null) return NotFound();
+
+        user.DisplayName = displayName;
+        user.Bio = bio;
+        user.Occupation = occupation;
+        user.Location = location;
+        user.PhoneNumber = phoneNumber;
+        user.GitHubUrl = githubUrl;
+        user.DiscordUrl = discordUrl;
+        user.LinkedInUrl = linkedinUrl;
+        user.FacebookUrl = facebookUrl;
+        user.TwitterUrl = twitterUrl;
+        user.WebsiteUrl = websiteUrl;
+        user.YoutubeUrl = youtubeUrl;
+        user.InstagramUrl = instagramUrl;
+        user.TikTokUrl = tiktokUrl;
+        user.BankAccountName = bankAccountName;
+        user.BankAccountNumber = bankAccountNumber;
+        user.BankBranch = bankBranch;
+
+        // Upload avatar nếu có ảnh mới
+        if (avatarFile != null && avatarFile.Length > 0)
+        {
+            var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "avatars");
+            Directory.CreateDirectory(uploadsDir);
+            var ext = Path.GetExtension(avatarFile.FileName);
+            var fileName = $"avatar_{user.Id}_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}{ext}";
+            var filePath = Path.Combine(uploadsDir, fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+                await avatarFile.CopyToAsync(stream);
+            user.AvatarUrl = $"/uploads/avatars/{fileName}";
+        }
+
+        await _context.SaveChangesAsync();
+        TempData["Success"] = "Profile đã được cập nhật thành công!";
+        return RedirectToAction("Profile");
+    }
+
     // ═══ BLOGS (Trang web) ═══
     public async Task<IActionResult> Blogs()
     {
@@ -222,7 +278,8 @@ public class DashboardController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> UpdateSettings(int id, string title, string? description, string? bio, string? avatarUrl)
+    public async Task<IActionResult> UpdateSettings(int id, string title, string? description, string? bio, string? avatarUrl, 
+        string? githubUrl, string? discordUrl, string? linkedinUrl, string? facebookUrl, string? twitterUrl, string? websiteUrl)
     {
         var blog = await _context.Blogs
             .Include(b => b.Owner)
@@ -237,10 +294,16 @@ public class DashboardController : Controller
             {
                 blog.Owner.Bio = bio;
                 blog.Owner.AvatarUrl = avatarUrl;
+                blog.Owner.GitHubUrl = githubUrl;
+                blog.Owner.DiscordUrl = discordUrl;
+                blog.Owner.LinkedInUrl = linkedinUrl;
+                blog.Owner.FacebookUrl = facebookUrl;
+                blog.Owner.TwitterUrl = twitterUrl;
+                blog.Owner.WebsiteUrl = websiteUrl;
             }
 
             await _context.SaveChangesAsync();
-            TempData["Success"] = "Cài đặt đã được cập nhật!";
+            TempData["Success"] = "Cài đặt và Trang cá nhân đã được cập nhật!";
         }
 
         return RedirectToAction("Settings");

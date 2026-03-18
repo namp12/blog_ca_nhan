@@ -26,6 +26,15 @@
             <div class="admin-card mb-3">
                 <h6 class="fw-bold mb-3">Xuất bản</h6>
                 <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted">CHUYÊN MỤC</label>
+                    <select name="categoryId" class="form-select rounded-3 small">
+                        @foreach (var cat in (List<blog_ca_nhan.Models.Category>)ViewData["Categories"]!)
+                        {
+                            <option value="@cat.Id">@cat.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
                     <label class="form-label small fw-semibold text-muted">TÓM TẮT</label>
                     <textarea name="summary" class="form-control rounded-3 small" rows="3"
                               placeholder="Mô tả ngắn gọn bài viết..."></textarea>

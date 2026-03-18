@@ -33,7 +33,7 @@
                     <span class="d-none d-md-block">@User.FindFirst("DisplayName")?.Value</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
-                    <li><a class="dropdown-item py-2" href="#"><i class="fa-solid fa-user me-2 text-muted"></i>Hồ sơ cá nhân</a></li>
+                    <li><a class="dropdown-item py-2" asp-area="Blogger" asp-controller="Dashboard" asp-action="Profile"><i class="fa-solid fa-user me-2 text-muted"></i>Hồ sơ cá nhân</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item py-2 text-danger" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a></li>
                 </ul>
@@ -57,10 +57,34 @@
                         <span>Bài viết</span>
                     </a>
                 </li>
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "comments" ? "active" : "")">
+                    <a asp-area="Blogger" asp-controller="Comments" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-comments"></i>
+                        <span>Bình luận</span>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "categories" ? "active" : "")">
+                    <a asp-area="Blogger" asp-controller="Categories" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-folder"></i>
+                        <span>Chuyên mục</span>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "tags" ? "active" : "")">
+                    <a asp-area="Blogger" asp-controller="Tags" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-tags"></i>
+                        <span>Thẻ (Tags)</span>
+                    </a>
+                </li>
                 <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "domains" ? "active" : "")">
                     <a asp-area="Blogger" asp-controller="Dashboard" asp-action="Domains" class="sidebar-link">
                         <i class="fa-solid fa-globe"></i>
                         <span>Tên miền</span>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "media" ? "active" : "")">
+                    <a asp-area="Blogger" asp-controller="Media" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-images"></i>
+                        <span>Media</span>
                     </a>
                 </li>
                 <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "themes" ? "active" : "")">
@@ -74,6 +98,12 @@
                         <i class="fa-solid fa-puzzle-piece"></i>
                         <span>Plugin</span>
                         <i class="fa-solid fa-chevron-right ms-auto small"></i>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["ActiveMenu"]?.ToString() == "profile" ? "active" : "")">
+                    <a asp-area="Blogger" asp-controller="Dashboard" asp-action="Profile" class="sidebar-link">
+                        <i class="fa-solid fa-id-card"></i>
+                        <span>Hồ sơ cá nhân</span>
                     </a>
                 </li>
                 <li class="sidebar-item mt-auto @(ViewData["ActiveMenu"]?.ToString() == "settings" ? "active" : "")">

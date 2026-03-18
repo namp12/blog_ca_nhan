@@ -1,0 +1,14 @@
+﻿E:\blog_ca_nhan\blog_ca_nhan\Controllers\BlogController.cs(26,9): error CS1519: Invalid token 'if' in a member declaration [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Controllers\BlogController.cs(26,18): error CS8124: Tuple must contain at least two elements. [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Controllers\BlogController.cs(26,18): error CS1026: ) expected [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Controllers\BlogController.cs(26,18): error CS1519: Invalid token '==' in a member declaration [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Controllers\BlogController.cs(26,43): error CS1001: Identifier expected [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Controllers\BlogController.cs(28,9): error CS1519: Invalid token 'return' in a member declaration [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Controllers\BlogController.cs(28,25): error CS1001: Identifier expected [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Controllers\BlogController.cs(29,5): error CS1519: Invalid token '}' in a member declaration [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+
+Build FAILED.
+    0 Warning(s)
+    8 Error(s)
+
+Time Elapsed 00:00:01.36

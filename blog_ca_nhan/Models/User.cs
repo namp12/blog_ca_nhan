@@ -37,6 +37,53 @@ public partial class User
     [StringLength(500)]
     public string? AvatarUrl { get; set; }
 
+    [StringLength(500)]
+    public string? GitHubUrl { get; set; }
+
+    [StringLength(500)]
+    public string? DiscordUrl { get; set; }
+
+    [StringLength(500)]
+    public string? LinkedInUrl { get; set; }
+
+    [StringLength(500)]
+    public string? FacebookUrl { get; set; }
+
+    [StringLength(500)]
+    public string? TwitterUrl { get; set; }
+
+    [StringLength(500)]
+    public string? WebsiteUrl { get; set; }
+
+    [StringLength(500)]
+    public string? YoutubeUrl { get; set; }
+
+    [StringLength(500)]
+    public string? InstagramUrl { get; set; }
+
+    [StringLength(500)]
+    public string? TikTokUrl { get; set; }
+
+    [StringLength(50)]
+    public string? PhoneNumber { get; set; }
+
+    [StringLength(200)]
+    public string? Location { get; set; }
+
+    [StringLength(200)]
+    public string? Occupation { get; set; }
+
+    // Thông tin Tài khoản Ngân hàng
+    [StringLength(200)]
+    public string? BankAccountName { get; set; }
+
+    [StringLength(50)]
+    public string? BankAccountNumber { get; set; }
+
+    [StringLength(200)]
+    public string? BankBranch { get; set; }
+
+
     [InverseProperty("User")]
     public virtual ICollection<AuditLog> AuditLogs { get; set; } = new List<AuditLog>();
 

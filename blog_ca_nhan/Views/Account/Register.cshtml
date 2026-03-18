@@ -1,51 +1,103 @@
 @{
-    ViewData["Title"] = "Đăng ký tài khoản";
+    ViewData["Title"] = "Tạo tài khoản - Premium Blog";
+    Layout = null;
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="feature-card shadow-premium border-0 p-5">
-                <div class="text-center mb-4">
-                    <h2 class="font-heading display-6">Bắt đầu ngay hôm nay</h2>
-                    <p class="text-muted">Tạo tài khoản để xây dựng blog của bạn.</p>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/auth.css" />
+</head>
+<body>
+    <div class="auth-wrapper">
+        <!-- Left Panel -->
+        <div class="brand-panel">
+            <div class="brand-content fade-up">
+                <h1 class="brand-title">Khám phá sức mạnh của nội dung.</h1>
+                <p class="brand-desc">Tạo blog trong 30 giây và bắt đầu chia sẻ kiến thức của bạn với cả thế giới.</p>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="form-panel">
+            <div class="form-container fade-up" style="max-width: 450px;">
+                <div class="auth-logo-mobile">PremiumBlog</div>
+                
+                <div class="auth-header text-center text-md-start">
+                    <h2>Bắt đầu ngay hôm nay</h2>
+                    <p>Hoàn toàn miễn phí, không yêu cầu thẻ tín dụng.</p>
                 </div>
 
                 <form asp-action="Register" method="post">
                     @if (!ViewData.ModelState.IsValid)
                     {
-                        <div class="alert alert-danger border-0 small">
+                        <div class="alert-custom border border-danger text-danger p-3 rounded-3 mb-4 small" style="background:#fef2f2">
                             <div asp-validation-summary="All"></div>
                         </div>
                     }
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Tên hiển thị</label>
-                        <input name="displayName" type="text" class="form-control form-control-lg rounded-3 fs-6" required placeholder="Nguyễn Văn A">
+                    <div class="row g-2">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Tên hiển thị</label>
+                                <input name="displayName" type="text" class="auth-input" placeholder="Nguyễn Văn A" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Tên đăng nhập</label>
+                                <input name="username" type="text" class="auth-input" placeholder="hung_blogger" required>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Tên đăng nhập</label>
-                        <input name="username" type="text" class="form-control form-control-lg rounded-3 fs-6" required placeholder="pnam_blogger">
+                    <div class="form-group">
+                        <label class="form-label">Địa chỉ Email</label>
+                        <input name="email" type="email" class="auth-input" placeholder="name@example.com" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Email</label>
-                        <input name="email" type="email" class="form-control form-control-lg rounded-3 fs-6" required placeholder="name@example.com">
+                    <div class="form-group">
+                        <label class="form-label">Mật khẩu</label>
+                        <div class="password-wrapper">
+                            <input name="password" id="pWord" type="password" class="auth-input" placeholder="••••••••" required minlength="6">
+                            <i class="fa-solid fa-eye pass-toggle" id="togglePass"></i>
+                        </div>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label fw-bold">Mật khẩu</label>
-                        <input name="password" type="password" class="form-control form-control-lg rounded-3 fs-6" required placeholder="••••••••">
-                    </div>
+                    <p class="text-muted small mb-4">Bằng việc đăng ký, bạn đồng ý với <a href="#" class="text-decoration-none">Điều khoản dịch vụ</a>.</p>
 
-                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold fs-5 shadow-sm">Đăng ký tài khoản</button>
-                    
-                    <div class="text-center mt-4">
-                        <p class="text-muted small">Đã có tài khoản? <a asp-action="Login" class="text-primary fw-bold text-decoration-none">Đăng nhập</a></p>
+                    <button type="submit" class="auth-submit">Tạo tài khoản miễn phí</button>
+
+                    <div class="auth-footer">
+                        <p>Đã có tài khoản? <a asp-action="Login">Đăng nhập tại đây</a></p>
                     </div>
                 </form>
+
+                <div class="mt-5 text-center text-md-start">
+                    <a href="/" class="small text-muted text-decoration-none">
+                        <i class="fa-solid fa-arrow-left-long me-2"></i> Quay lại trang chủ
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#togglePass').on('click', function() {
+                const passInput = $('#pWord');
+                const type = passInput.attr('type') === 'password' ? 'text' : 'password';
+                passInput.attr('type', type);
+                $(this).toggleClass('fa-eye fa-eye-slash');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,44 +1,103 @@
 @{
-    ViewData["Title"] = "Đăng nhập";
+    ViewData["Title"] = "Đăng nhập - Premium Blog";
+    Layout = null; 
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="feature-card shadow-premium border-0 p-5">
-                <div class="text-center mb-4">
-                    <h2 class="font-heading display-6">Chào mừng trở lại</h2>
-                    <p class="text-muted">Tiếp tục quản lý blog của bạn.</p>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/auth.css" />
+</head>
+<body>
+    <div class="auth-wrapper">
+        <!-- Left Panel -->
+        <div class="brand-panel">
+            <div class="brand-content fade-up">
+                <h1 class="brand-title">Xây dựng thế giới từ con chữ của bạn.</h1>
+                <p class="brand-desc">Tham gia cộng đồng hàng ngàn blogger chuyên nghiệp và tạo dấu ấn cá nhân ngay hôm nay.</p>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="form-panel">
+            <div class="form-container fade-up">
+                <div class="auth-logo-mobile">PremiumBlog</div>
+                
+                <div class="auth-header text-center text-md-start">
+                    <h2>Chào mừng trở lại</h2>
+                    <p>Nhập thông tin để tiếp tục quản lý blog.</p>
                 </div>
 
                 <form asp-action="Login" method="post">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert-custom border border-success text-success p-3 rounded-3 mb-4 small" style="background:#f0fdf4">
+                            <i class="fa-solid fa-circle-check me-2"></i>@TempData["Success"]
+                        </div>
+                    }
+
                     @if (!ViewData.ModelState.IsValid)
                     {
-                        <div class="alert alert-danger border-0 small">
+                        <div class="alert-custom border border-danger text-danger p-3 rounded-3 mb-4 small" style="background:#fef2f2">
                             <div asp-validation-summary="All"></div>
                         </div>
                     }
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Tên đăng nhập</label>
-                        <input name="username" type="text" class="form-control form-control-lg rounded-3 fs-6" required placeholder="Tên đăng nhập của bạn">
+                    <div class="form-group">
+                        <label class="form-label">Tên đăng nhập</label>
+                        <input name="username" type="text" class="auth-input" placeholder="hung_blogger" required autofocus>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="form-group">
                         <div class="d-flex justify-content-between">
-                            <label class="form-label fw-bold">Mật khẩu</label>
-                            <a href="#" class="small text-muted text-decoration-none">Quên mật khẩu?</a>
+                            <label class="form-label">Mật khẩu</label>
+                            <a href="#" class="small text-muted text-decoration-none">Quên?</a>
                         </div>
-                        <input name="password" type="password" class="form-control form-control-lg rounded-3 fs-6" required placeholder="••••••••">
+                        <div class="password-wrapper">
+                            <input name="password" id="pWord" type="password" class="auth-input" placeholder="••••••••" required>
+                            <i class="fa-solid fa-eye pass-toggle" id="togglePass"></i>
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold fs-5 shadow-sm">Đăng nhập</button>
-                    
-                    <div class="text-center mt-4">
-                        <p class="text-muted small">Chưa có tài khoản? <a asp-action="Register" class="text-primary fw-bold text-decoration-none">Đăng ký ngay</a></p>
+                    <div class="form-check mb-4">
+                        <input name="rememberMe" class="form-check-input" type="checkbox" id="rememberMe" value="true">
+                        <label class="form-check-label text-muted small" for="rememberMe">
+                            Duy trì đăng nhập trong 30 ngày
+                        </label>
+                    </div>
+
+                    <button type="submit" class="auth-submit">Đăng nhập ngay</button>
+
+                    <div class="auth-footer">
+                        <p>Chưa có tài khoản? <a asp-action="Register">Đăng ký miễn phí</a></p>
                     </div>
                 </form>
+
+                <div class="mt-5 text-center text-md-start">
+                    <a href="/" class="small text-muted text-decoration-none">
+                        <i class="fa-solid fa-arrow-left-long me-2"></i> Quay lại trang chủ
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#togglePass').on('click', function() {
+                const passInput = $('#pWord');
+                const type = passInput.attr('type') === 'password' ? 'text' : 'password';
+                passInput.attr('type', type);
+                $(this).toggleClass('fa-eye fa-eye-slash');
+            });
+        });
+    </script>
+</body>
+</html>

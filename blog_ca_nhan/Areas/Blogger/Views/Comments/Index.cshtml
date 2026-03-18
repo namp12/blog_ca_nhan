@@ -1,0 +1,88 @@
+@model List<blog_ca_nhan.Models.Comment>
+@{
+    ViewData["Title"] = "Quản lý Bình luận";
+    ViewData["ActiveMenu"] = "comments";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">💬 Bình luận</h1>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-4">
+        <i class="fa-solid fa-check-circle me-2"></i>@TempData["Success"]
+    </div>
+}
+
+<div class="admin-card p-0">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th class="px-4 py-3 fw-semibold text-muted small border-0">NGƯỜI GỬI</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">NỘI DUNG</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">BÀI VIẾT</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0 text-center">TRẠNG THÁI</th>
+                <th class="px-3 py-3 border-0 text-end">HÀNH ĐỘNG</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var comment in Model)
+        {
+            <tr class="@(comment.IsApproved != true ? "bg-light-yellow" : "")">
+                <td class="px-4 py-3">
+                    <div class="fw-semibold small">@comment.AuthorName</div>
+                    <div class="text-muted" style="font-size:0.75rem">@comment.AuthorEmail</div>
+                    <div class="text-muted" style="font-size:0.7rem">@comment.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</div>
+                </td>
+                <td class="px-3 py-3">
+                    <div class="small text-wrap" style="max-width:300px">@comment.Content</div>
+                </td>
+                <td class="px-3 py-3 small">
+                    <a href="/b/@comment.Blog?.Subdomain/@comment.Post?.Slug" target="_blank" class="text-decoration-none">
+                        @comment.Post?.Title
+                    </a>
+                </td>
+                <td class="px-3 py-3 text-center">
+                    @if (comment.IsApproved == true)
+                    {
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Đã duyệt</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill">Chờ duyệt</span>
+                    }
+                </td>
+                <td class="px-3 py-3 text-end">
+                    <div class="d-flex justify-content-end gap-2">
+                        @if (comment.IsApproved != true)
+                        {
+                            <form asp-action="Approve" method="post">
+                                <input type="hidden" name="id" value="@comment.Id" />
+                                <button class="btn btn-sm btn-outline-success rounded-pill px-3">Duyệt</button>
+                            </form>
+                        }
+                        <form asp-action="Delete" method="post" onsubmit="return confirm('Xoá bình luận này?')">
+                            <input type="hidden" name="id" value="@comment.Id" />
+                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3">Xoá</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="admin-card text-center py-5">
+        <i class="fa-solid fa-comments fa-3x text-light mb-3"></i>
+        <p class="text-muted">Chưa có bình luận nào.</p>
+    </div>
+}
+
+<style>
+    .bg-light-yellow { background-color: #fffdf0; }
+</style>

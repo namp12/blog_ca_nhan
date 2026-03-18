@@ -1,0 +1,16 @@
+﻿E:\blog_ca_nhan\blog_ca_nhan\Views\Blog\Index.cshtml(115,2): error RZ1034: Found a malformed 'body' tag helper. Tag helpers must have a start and end tag or be self closing. [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Views\Blog\Index.cshtml(153,17): error RZ1006: The else block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup. [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Views\Blog\Index.cshtml(155,22): error RZ1006: The foreach block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup. [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Views\Blog\Index.cshtml(188,11): error RZ1026: Encountered end tag "div" with no matching start tag.  Are your start/end tags properly balanced? [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Views\Blog\Index.cshtml(189,7): error RZ1026: Encountered end tag "main" with no matching start tag.  Are your start/end tags properly balanced? [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Views\Blog\Index.cshtml(198,3): error RZ1026: Encountered end tag "body" with no matching start tag.  Are your start/end tags properly balanced? [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Views\Blog\Index.cshtml(198,3): error RZ1034: Found a malformed 'body' tag helper. Tag helpers must have a start and end tag or be self closing. [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Views\Blog\Index.cshtml(199,3): error RZ1026: Encountered end tag "html" with no matching start tag.  Are your start/end tags properly balanced? [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\obj\Debug\net10.0\Microsoft.CodeAnalysis.Razor.Compiler\Microsoft.NET.Sdk.Razor.SourceGenerators.RazorSourceGenerator\Views\Blog\Index_cshtml.g.cs(547,14): error CS1513: } expected [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+E:\blog_ca_nhan\blog_ca_nhan\Areas\Blogger\Views\Media\Index.cshtml(51,107): error CS1501: No overload for method 'ToString' takes 1 arguments [E:\blog_ca_nhan\blog_ca_nhan\blog_ca_nhan.csproj]
+
+Build FAILED.
+    2 Warning(s)
+    10 Error(s)
+
+Time Elapsed 00:00:01.86

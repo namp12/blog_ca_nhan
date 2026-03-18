@@ -1,0 +1,75 @@
+@model List<blog_ca_nhan.Models.Tag>
+@{
+    ViewData["Title"] = "Thẻ (Tags)";
+    ViewData["ActiveMenu"] = "tags";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">🏷️ Thẻ (Tags)</h1>
+    <button class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addTagModal">
+        + Thêm Thẻ
+    </button>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-4">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger border-0 rounded-3 mb-4">@TempData["Error"]</div>
+}
+
+<div class="admin-card p-0">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th class="px-4 py-3 fw-semibold text-muted small border-0">TÊN THẺ</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">SLUG</th>
+                <th class="px-3 py-3 border-0 text-end">HÀNH ĐỘNG</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var tag in Model)
+        {
+            <tr>
+                <td class="px-4 py-3 fw-semibold">
+                    <span class="badge bg-light text-primary border rounded-pill px-3 py-2">#@tag.Name</span>
+                </td>
+                <td class="px-3 py-3 text-muted small">@tag.Slug</td>
+                <td class="px-3 py-3 text-end">
+                    <form asp-action="Delete" method="post" onsubmit="return confirm('Xoá thẻ này?')">
+                        <input type="hidden" name="id" value="@tag.Id">
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3">Xoá</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Tag Modal -->
+<div class="modal fade" id="addTagModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow rounded-4">
+            <div class="modal-header border-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold">Thêm Thẻ mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="Create" method="post">
+                <div class="modal-body px-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tên thẻ</label>
+                        <input name="name" type="text" class="form-control rounded-3" required placeholder="lifestyle, coding...">
+                    </div>
+                </div>
+                <div class="modal-footer border-0 px-4 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Huỷ</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Thêm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

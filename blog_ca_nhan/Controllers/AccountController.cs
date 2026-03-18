@@ -25,11 +25,23 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(string username, string email, string password, string displayName)
     {
-        if (await _context.Users.AnyAsync(u => u.Username == username || u.Email == email))
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
-            ModelState.AddModelError("", "Username hoặc Email đã tồn tại.");
+            ModelState.AddModelError("", "Vui lòng nhập đầy đủ thông tin.");
             return View();
         }
+
+        if (await _context.Users.AnyAsync(u => u.Username == username))
+        {
+            ModelState.AddModelError("username", "Tên đăng nhập này đã được sử dụng.");
+        }
+        
+        if (await _context.Users.AnyAsync(u => u.Email == email))
+        {
+            ModelState.AddModelError("email", "Email này đã được sử dụng.");
+        }
+
+        if (!ModelState.IsValid) return View();
 
         var user = new User
         {
@@ -46,6 +58,7 @@ public class AccountController : Controller
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
+        TempData["Success"] = "Đăng ký thành công! Mời bạn đăng nhập.";
         return RedirectToAction("Login");
     }
 
@@ -53,8 +66,14 @@ public class AccountController : Controller
     public IActionResult Login() => View();
 
     [HttpPost]
-    public async Task<IActionResult> Login(string username, string password)
+    public async Task<IActionResult> Login(string username, string password, bool rememberMe = false)
     {
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        {
+            ModelState.AddModelError("", "Vui lòng nhập đầy đủ thông tin.");
+            return View();
+        }
+
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         
         if (user != null)
@@ -74,7 +93,13 @@ public class AccountController : Controller
                 var identity = new ClaimsIdentity(claims, "CookieAuth");
                 var principal = new ClaimsPrincipal(identity);
 
-                await HttpContext.SignInAsync("CookieAuth", principal);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = rememberMe,
+                    ExpiresUtc = rememberMe ? DateTimeOffset.UtcNow.AddDays(30) : null
+                };
+
+                await HttpContext.SignInAsync("CookieAuth", principal, authProperties);
 
                 if (user.IsPlatformAdmin == true)
                 {
@@ -84,7 +109,7 @@ public class AccountController : Controller
             }
         }
 
-        ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
+        ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không chính xác.");
         return View();
     }
 

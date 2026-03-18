@@ -20,12 +20,12 @@ public class ThemesController : Controller
     public IActionResult Create() => View();
 
     [HttpPost]
-    public async Task<IActionResult> Create(string name, string slug, string? previewImageUrl, string? description, bool isPremium)
+    public async Task<IActionResult> Create(string name, string? previewImageUrl, string? description, bool isPremium)
     {
         _context.Themes.Add(new Theme
         {
             Name = name,
-            Slug = slug,
+            CodeName = name.ToLower().Replace(" ", "-"),
             PreviewImageUrl = previewImageUrl,
             Description = description,
             IsPremium = isPremium,

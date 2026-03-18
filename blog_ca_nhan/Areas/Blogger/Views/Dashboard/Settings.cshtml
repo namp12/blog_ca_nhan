@@ -45,6 +45,52 @@ else
                         <textarea name="bio" class="form-control rounded-3" rows="3" placeholder="Giới thiệu ngắn về bạn...">@Model.Owner?.Bio</textarea>
                     </div>
 
+                    <h6 class="fw-bold mt-4 mb-3"><i class="fa-solid fa-share-nodes me-2"></i>Liên kết Mạng xã hội</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">GitHub</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-light border-end-0"><i class="fa-brands fa-github"></i></span>
+                                <input name="githubUrl" type="text" class="form-control rounded-3 border-start-0" value="@Model.Owner?.GitHubUrl" placeholder="https://github.com/username">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Discord</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-light border-end-0 text-primary"><i class="fa-brands fa-discord"></i></span>
+                                <input name="discordUrl" type="text" class="form-control rounded-3 border-start-0" value="@Model.Owner?.DiscordUrl" placeholder="Link mời Discord...">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">LinkedIn</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-light border-end-0 text-info"><i class="fa-brands fa-linkedin-in"></i></span>
+                                <input name="linkedinUrl" type="text" class="form-control rounded-3 border-start-0" value="@Model.Owner?.LinkedInUrl" placeholder="Link LinkedIn...">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Facebook</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-light border-end-0 text-primary"><i class="fa-brands fa-facebook-f"></i></span>
+                                <input name="facebookUrl" type="text" class="form-control rounded-3 border-start-0" value="@Model.Owner?.FacebookUrl" placeholder="Link Facebook...">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Twitter (X)</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-light border-end-0"><i class="fa-brands fa-x-twitter"></i></span>
+                                <input name="twitterUrl" type="text" class="form-control rounded-3 border-start-0" value="@Model.Owner?.TwitterUrl" placeholder="Link Twitter...">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Trang web cá nhân</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-light border-end-0 text-success"><i class="fa-solid fa-globe"></i></span>
+                                <input name="websiteUrl" type="text" class="form-control rounded-3 border-start-0" value="@Model.Owner?.WebsiteUrl" placeholder="https://mywebsite.com">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Subdomain</label>
                         <div class="input-group text-muted">
