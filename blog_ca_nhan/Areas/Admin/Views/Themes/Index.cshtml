@@ -1,0 +1,105 @@
+@model List<blog_ca_nhan.Models.Theme>
+@{
+    ViewData["Title"] = "Quản lý Chủ đề";
+    ViewData["AdminMenu"] = "themes";
+    Layout = "_AdminAreaLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">🎨 Chủ đề (@Model.Count)</h1>
+    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addThemeModal">
+        + Thêm Chủ đề
+    </button>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-4">@TempData["Success"]</div>
+}
+
+<div class="row g-4 mb-4">
+    @{
+        var defaultImages = new[] {
+            "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=220&fit=crop",
+            "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=400&h=220&fit=crop",
+            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=220&fit=crop",
+        };
+    }
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        var theme = Model[i];
+        var img = !string.IsNullOrEmpty(theme.PreviewImageUrl) ? theme.PreviewImageUrl : defaultImages[i % defaultImages.Length];
+        <div class="col-sm-6 col-lg-4">
+            <div class="theme-card-item @(theme.IsActive == false ? "opacity-50" : "")">
+                <img src="@img" alt="@theme.Name">
+                <div class="theme-card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-bold">@theme.Name</div>
+                            <div class="text-muted small">@theme.Slug · @(theme.IsPremium == true ? "💎 Premium" : "✅ Miễn phí")</div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                <li>
+                                    <form asp-action="ToggleActive" method="post">
+                                        <input type="hidden" name="id" value="@theme.Id">
+                                        <button class="dropdown-item py-2">@(theme.IsActive == true ? "Ẩn chủ đề" : "Hiện chủ đề")</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form asp-action="Delete" method="post" onsubmit="return confirm('Xoá chủ đề?')">
+                                        <input type="hidden" name="id" value="@theme.Id">
+                                        <button class="dropdown-item py-2 text-danger">Xoá</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Add Theme Modal -->
+<div class="modal fade" id="addThemeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow-premium rounded-4">
+            <div class="modal-header border-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold">Thêm Chủ đề mới</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="Create" method="post">
+                <div class="modal-body px-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tên chủ đề</label>
+                        <input name="name" type="text" class="form-control rounded-3" required placeholder="Minimal Blog">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Slug</label>
+                        <input name="slug" type="text" class="form-control rounded-3" required placeholder="minimal-blog">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">URL Ảnh Preview</label>
+                        <input name="previewImageUrl" type="url" class="form-control rounded-3" placeholder="https://...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Mô tả</label>
+                        <textarea name="description" class="form-control rounded-3" rows="2"></textarea>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="isPremium" id="isPremium" value="true">
+                        <label class="form-check-label fw-semibold" for="isPremium">Chủ đề Premium (trả phí)</label>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 px-4 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Huỷ</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Thêm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

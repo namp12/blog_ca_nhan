@@ -1,0 +1,106 @@
+@model List<blog_ca_nhan.Models.User>
+@{
+    ViewData["Title"] = "Quản lý Người dùng";
+    ViewData["AdminMenu"] = "users";
+    Layout = "_AdminAreaLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">👤 Người dùng (@Model.Count)</h1>
+</div>
+
+<div class="admin-card mb-4">
+    <form method="get" class="d-flex gap-2">
+        <input type="text" name="search" class="form-control rounded-pill" style="max-width:320px"
+               placeholder="🔍 Tìm theo tên, email..." value="@ViewData["Search"]">
+        <button type="submit" class="btn btn-primary rounded-pill px-4">Tìm</button>
+        @if (ViewData["Search"] != null)
+        {
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Xóa bộ lọc</a>
+        }
+    </form>
+</div>
+
+<div class="admin-card p-0">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th class="px-4 py-3 fw-semibold text-muted small border-0">NGƯỜI DÙNG</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">EMAIL</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">SỐ BLOG</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">TRẠNG THÁI</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">NGÀY TẠO</th>
+                <th class="px-3 py-3 border-0"></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in Model)
+        {
+            <tr class="@(user.IsActive == false ? "opacity-50" : "")">
+                <td class="px-4 py-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="user-avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6); font-size:0.75rem; width:32px; height:32px">
+                            @user.DisplayName[0].ToString().ToUpper()
+                        </div>
+                        <div>
+                            <div class="fw-semibold small">@user.DisplayName</div>
+                            <div class="text-muted" style="font-size:0.75rem">@@@user.Username</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-3 py-3 small text-muted">@user.Email</td>
+                <td class="px-3 py-3 text-center">@user.Blogs.Count</td>
+                <td class="px-3 py-3">
+                    @if (user.IsPlatformAdmin == true)
+                    {
+                        <span class="badge rounded-pill" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">Admin</span>
+                    }
+                    else if (user.IsActive == true)
+                    {
+                        <span class="badge bg-success rounded-pill">Hoạt động</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary rounded-pill">Bị khóa</span>
+                    }
+                </td>
+                <td class="px-3 py-3 small text-muted">@user.CreatedAt?.ToString("dd/MM/yyyy")</td>
+                <td class="px-3 py-3 text-end">
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary rounded-pill" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-ellipsis-h"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                            <li>
+                                <form asp-action="ToggleActive" method="post">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button class="dropdown-item py-2">
+                                        <i class="fa-solid fa-lock me-2 text-muted"></i>@(user.IsActive == true ? "Khóa tài khoản" : "Mở khóa")
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <form asp-action="MakeAdmin" method="post">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button class="dropdown-item py-2">
+                                        <i class="fa-solid fa-shield me-2 text-muted"></i>@(user.IsPlatformAdmin == true ? "Xoá quyền Admin" : "Cấp quyền Admin")
+                                    </button>
+                                </form>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form asp-action="Delete" method="post" onsubmit="return confirm('Xoá người dùng @user.Username?')">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button class="dropdown-item py-2 text-danger">
+                                        <i class="fa-solid fa-trash me-2"></i>Xoá tài khoản
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

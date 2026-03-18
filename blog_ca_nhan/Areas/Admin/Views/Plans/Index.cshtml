@@ -1,0 +1,68 @@
+@model List<blog_ca_nhan.Models.SubscriptionPlan>
+@{
+    ViewData["Title"] = "Gói dịch vụ";
+    ViewData["AdminMenu"] = "plans";
+    Layout = "_AdminAreaLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">💎 Gói dịch vụ (@Model.Count)</h1>
+</div>
+
+<div class="row g-4">
+    @foreach (var plan in Model)
+    {
+        <div class="col-md-6 col-lg-3">
+            <div class="admin-card h-100">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h5 class="fw-bold mb-0">@plan.Name</h5>
+                    @if (plan.Price == 0)
+                    {
+                        <span class="plan-badge plan-free">Miễn phí</span>
+                    }
+                    else
+                    {
+                        <span class="badge rounded-pill" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">Premium</span>
+                    }
+                </div>
+                <div class="display-6 fw-bold mb-3">
+                    @(plan.Price == 0 ? "Free" : "$" + plan.Price + "/năm")
+                </div>
+                <ul class="list-unstyled text-muted small">
+                    <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Lưu trữ: @plan.MaxStorageMb MB</li>
+                    <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>
+                        @(plan.MaxPosts == -1 ? "Không giới hạn bài viết" : plan.MaxPosts + " bài viết")
+                    </li>
+                    <li class="mb-2">
+                        @if (plan.HasCustomDomain == true)
+                        {
+                            <i class="fa-solid fa-check text-success me-2"></i> <span>Tên miền tuỳ chỉnh</span>
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-xmark text-danger me-2"></i> <span class="text-decoration-line-through">Tên miền tuỳ chỉnh</span>
+                        }
+                    </li>
+                    <li class="mb-2">
+                        @if (plan.HasAdFree == true)
+                        {
+                            <i class="fa-solid fa-check text-success me-2"></i> <span>Không quảng cáo</span>
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-xmark text-danger me-2"></i> <span class="text-decoration-line-through">Không quảng cáo</span>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+    @if (!Model.Any())
+    {
+        <div class="col-12">
+            <div class="admin-card text-center py-5">
+                <p class="text-muted">Chưa có gói dịch vụ nào. Hãy chạy SQL Script để thêm dữ liệu.</p>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,101 @@
+@model blog_ca_nhan.Areas.Admin.Controllers.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["AdminMenu"] = "home";
+    Layout = "_AdminAreaLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">📊 Dashboard Nền tảng</h1>
+    <span class="text-muted small">Tổng quan dữ liệu toàn hệ thống</span>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-4 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <span class="number" style="color:#6366f1">@Model.TotalUsers</span>
+            <p>Người dùng</p>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <span class="number" style="color:#2c59f2">@Model.TotalBlogs</span>
+            <p>Blog đang chạy</p>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <span class="number" style="color:#16a34a">@Model.TotalPosts</span>
+            <p>Bài viết</p>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <span class="number" style="color:#d97706">@Model.TotalComments</span>
+            <p>Bình luận</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Recent Users -->
+    <div class="col-lg-6">
+        <div class="admin-card">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0">Người dùng mới nhất</h5>
+                <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Xem tất cả</a>
+            </div>
+            @if (!Model.RecentUsers.Any())
+            {
+                <p class="text-muted text-center py-4">Chưa có người dùng nào.</p>
+            }
+            else
+            {
+                @foreach (var user in Model.RecentUsers)
+                {
+                    <div class="blog-item">
+                        <div class="blog-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6); font-size:0.9rem">
+                            @user.DisplayName[0].ToString().ToUpper()
+                        </div>
+                        <div class="blog-info">
+                            <h6>@user.DisplayName</h6>
+                            <p>@user.Email <span class="plan-badge plan-free ms-1">@(user.IsPlatformAdmin == true ? "Admin" : "User")</span></p>
+                        </div>
+                        <small class="text-muted">@user.CreatedAt?.ToString("dd/MM")</small>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Recent Blogs -->
+    <div class="col-lg-6">
+        <div class="admin-card">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0">Blog mới nhất</h5>
+                <a asp-area="Admin" asp-controller="Blogs" asp-action="Index" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Xem tất cả</a>
+            </div>
+            @if (!Model.RecentBlogs.Any())
+            {
+                <p class="text-muted text-center py-4">Chưa có blog nào.</p>
+            }
+            else
+            {
+                @foreach (var blog in Model.RecentBlogs)
+                {
+                    <div class="blog-item">
+                        <div class="blog-icon" style="background:#f0f6fc; color:#0969da">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <div class="blog-info">
+                            <h6>@blog.Title</h6>
+                            <p>@blog.Subdomain · @blog.Owner?.DisplayName</p>
+                        </div>
+                        <span class="badge @(blog.Status == 1 ? "bg-success" : "bg-secondary") rounded-pill">@(blog.Status == 1 ? "Hoạt động" : "Tắt")</span>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

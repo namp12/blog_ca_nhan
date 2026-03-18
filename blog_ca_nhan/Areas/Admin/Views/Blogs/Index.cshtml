@@ -1,0 +1,87 @@
+@model List<blog_ca_nhan.Models.Blog>
+@{
+    ViewData["Title"] = "Tất cả Blog";
+    ViewData["AdminMenu"] = "blogs";
+    Layout = "_AdminAreaLayout";
+}
+
+<div class="admin-page-header">
+    <h1 class="admin-page-title">🌐 Tất cả Blog (@Model.Count)</h1>
+</div>
+
+<div class="admin-card mb-4">
+    <form method="get" class="d-flex gap-2">
+        <input type="text" name="search" class="form-control rounded-pill" style="max-width:320px"
+               placeholder="🔍 Tìm tên Blog, subdomain..." value="@ViewData["Search"]">
+        <button type="submit" class="btn btn-primary rounded-pill px-4">Tìm</button>
+    </form>
+</div>
+
+<div class="admin-card p-0">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th class="px-4 py-3 fw-semibold text-muted small border-0">TÊN BLOG</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">CHỦ SỞ HỮU</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">GÓI</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">BÀI VIẾT</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">TRẠNG THÁI</th>
+                <th class="px-3 py-3 fw-semibold text-muted small border-0">NGÀY TẠO</th>
+                <th class="px-3 py-3 border-0"></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var blog in Model)
+        {
+            <tr class="@(blog.Status != 1 ? "opacity-50" : "")">
+                <td class="px-4 py-3">
+                    <div class="fw-semibold">@blog.Title</div>
+                    <div class="text-muted small">@blog.Subdomain</div>
+                </td>
+                <td class="px-3 py-3 small">@blog.Owner?.DisplayName</td>
+                <td class="px-3 py-3">
+                    <span class="plan-badge plan-free">@(blog.Plan?.Name ?? "Free")</span>
+                </td>
+                <td class="px-3 py-3 text-center fw-semibold">@blog.Posts.Count</td>
+                <td class="px-3 py-3">
+                    @if (blog.Status == 1)
+                    {
+                        <span class="badge bg-success rounded-pill">Hoạt động</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary rounded-pill">Tắt</span>
+                    }
+                </td>
+                <td class="px-3 py-3 small text-muted">@blog.CreatedAt?.ToString("dd/MM/yyyy")</td>
+                <td class="px-3 py-3 text-end">
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary rounded-pill" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-ellipsis-h"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                            <li>
+                                <form asp-action="ToggleStatus" method="post">
+                                    <input type="hidden" name="id" value="@blog.Id" />
+                                    <button class="dropdown-item py-2">
+                                        <i class="fa-solid fa-power-off me-2 text-muted"></i>@(blog.Status == 1 ? "Tắt Blog" : "Bật Blog")
+                                    </button>
+                                </form>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form asp-action="Delete" method="post" onsubmit="return confirm('Xoá blog @blog.Title?')">
+                                    <input type="hidden" name="id" value="@blog.Id" />
+                                    <button class="dropdown-item py-2 text-danger">
+                                        <i class="fa-solid fa-trash me-2"></i>Xoá Blog
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

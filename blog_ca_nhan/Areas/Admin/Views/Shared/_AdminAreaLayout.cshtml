@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - @ViewData["Title"]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <style>
+        /* Admin Area overrides */
+        :root {
+            --sidebar-bg: #1e1e2d;
+            --sidebar-text: #a2a2b5;
+            --sidebar-hover: rgba(255,255,255,0.06);
+            --sidebar-active: rgba(255,255,255,0.12);
+        }
+        .admin-sidebar { background: var(--sidebar-bg); }
+        .admin-logo { color: white; }
+        .sidebar-link { color: var(--sidebar-text); }
+        .sidebar-link:hover { background: var(--sidebar-hover); color: white; }
+        .sidebar-item.active .sidebar-link { background: var(--sidebar-active); color: white; }
+        .sidebar-section {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #5e5e7a;
+            padding: 16px 22px 6px;
+        }
+        .admin-topbar { background: white; }
+        .admin-badge-admin {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 100px;
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <header class="admin-topbar">
+        <div class="d-flex align-items-center gap-3">
+            <a href="/admin" class="admin-logo d-flex align-items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-primary"></i>
+                <span class="fw-bold" style="color:#1e1e2d">Admin Panel</span>
+                <span class="admin-badge-admin">PLATFORM</span>
+            </a>
+        </div>
+        <div class="admin-topbar-right">
+            <a href="/" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                <i class="fa-solid fa-arrow-up-right-from-square me-1"></i>Xem trang chủ
+            </a>
+            <a asp-area="" asp-controller="Dashboard" asp-action="Blogs" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                <i class="fa-solid fa-table-cells-large me-1"></i>Dashboard
+            </a>
+            <div class="dropdown">
+                <button class="btn btn-sm d-flex align-items-center gap-2 user-btn dropdown-toggle" data-bs-toggle="dropdown">
+                    <div class="user-avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">
+                        @(User.FindFirst("DisplayName")?.Value?[0].ToString().ToUpper() ?? "A")
+                    </div>
+                    <span class="d-none d-md-block fw-semibold">@User.FindFirst("DisplayName")?.Value</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+                    <li><a class="dropdown-item py-2" asp-area="" asp-controller="Account" asp-action="Logout">
+                        <i class="fa-solid fa-right-from-bracket me-2 text-muted"></i>Đăng xuất
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-wrapper">
+        <nav class="admin-sidebar" id="adminSidebar">
+            <ul class="sidebar-nav" style="padding-top:8px">
+                <div class="sidebar-section">Tổng quan</div>
+                <li class="sidebar-item @(ViewData["AdminMenu"]?.ToString() == "home" ? "active" : "")">
+                    <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <div class="sidebar-section">Quản lý nội dung</div>
+                <li class="sidebar-item @(ViewData["AdminMenu"]?.ToString() == "users" ? "active" : "")">
+                    <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-users"></i> <span>Người dùng</span>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["AdminMenu"]?.ToString() == "blogs" ? "active" : "")">
+                    <a asp-area="Admin" asp-controller="Blogs" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-globe"></i> <span>Tất cả Blog</span>
+                    </a>
+                </li>
+
+                <div class="sidebar-section">Nền tảng</div>
+                <li class="sidebar-item @(ViewData["AdminMenu"]?.ToString() == "themes" ? "active" : "")">
+                    <a asp-area="Admin" asp-controller="Themes" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-palette"></i> <span>Chủ đề</span>
+                    </a>
+                </li>
+                <li class="sidebar-item @(ViewData["AdminMenu"]?.ToString() == "plans" ? "active" : "")">
+                    <a asp-area="Admin" asp-controller="Plans" asp-action="Index" class="sidebar-link">
+                        <i class="fa-solid fa-crown"></i> <span>Gói dịch vụ</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="admin-content">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

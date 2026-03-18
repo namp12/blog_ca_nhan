@@ -67,7 +67,8 @@ public class AccountController : Controller
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim("DisplayName", user.DisplayName)
+                    new Claim("DisplayName", user.DisplayName),
+                    new Claim("IsPlatformAdmin", (user.IsPlatformAdmin == true).ToString().ToLower())
                 };
 
                 var identity = new ClaimsIdentity(claims, "CookieAuth");
